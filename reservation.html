@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/reservation.css"/>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Tangerine">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poiret One">
+
+    <title>Shuttle Service - Hotel Alpenblick</title>
+
+</head>
+<body>
+<header>
+    <h1>Hotel Alpenblick</h1>
+    <p>Das schöne Hotel in den Alpen</p>
+</header>
+
+<nav>
+    <ul>
+        <li><a href="index.html">Start</a></li>
+        <li><a href="reservation.html">Shuttle-Service</a></li>
+    </ul>
+</nav>
+
+<section>
+    <h2>Reservierungsformular</h2>
+    <p>Wir nehmen gerne Ihre Reservierung entgegen. Bitte füllen Sie dazu einfach das Formular aus.</p>
+    <form method="post" action="*php" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Reservierung</legend>
+            <table>
+                <section>
+                    <tr>
+                        <td><label for="shuttledate">Wähle das Datum für die Reservierung:</label></td>
+                        <td><input type="date" id="shuttledate" name="shuttledate"/></td>
+                    </tr>
+
+					<tr>
+						<td> <p>ABfahrtszeiten</p>
+							<input type="radio" name="depature_time" value="8:30" > 8:30
+							<input type="radio" name="depature_time" value="12:30" > 12:30
+							<input type="radio" name="depature_time" value="15:30" > 15:30
+						</td>
+					</tr>
+
+					<tr>
+						<td> <p>ABfahrtsort</p>
+						<input type="radio" name="depature" value="Airport Alpen" > Airport Alpen
+						<input type="radio" name="depature" value="Hotel Alpenblick" > Hotel Alpenblick
+						</td>
+					</tr>
+
+
+					<tr>
+						<td> <p>ANkunftsort</p>
+							<input type="radio" name="arrival" value="Airport Alpen" > Airport Alpen
+							<input type="radio" name="arrival" value="Hotel Alpenblick" > Hotel Alpenblick
+						</td>
+					</tr>
+
+					<td><input type="submit" value="Shuttle prüfen">
+
+                </section>
+            </table>
+            <table>
+                <tr>
+                    <td><label for="name">Name</label></td>
+                    <td><input type="text" name="name" id="name" autofocus required placeholder="Ihr Name"/></td>
+                </tr>
+                <tr>
+                    <td><label for="birthdate">Geburtsdatum</label></td>
+                    <td><input type="date" id="birthdate" name="birthdate"/></td>
+                </tr>
+                <tr>
+                    <td><label for="zip">Plz und Stadt</label></td>
+                    <td><input type="text" id="zip" name="zip" size="4" placeholder="Plz" pattern="[1-9][0-9]{3}">
+                        <input type="text" id="city" name="city" placeholder="Stadt" list="cities"></td>
+                </tr>
+                <tr>
+                    <td><label for="phone">Telefon</label></td>
+                    <td><input type="tel" id="phone" name="phone" placeholder="Telefonnummer"></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Email</label></td>
+                    <td><input type="email" id="email" name="email" required placeholder="Email"></td>
+                </tr>
+                <tr>
+                    <td><label for="flugnr">Flugnummer</label></td>
+                    <td><input type="text" id="flugnr" name="flugnr" placeholder="Flugnummer "></td>
+                </tr>
+                <tr>
+                    <td><label for="comment">Kommentar</label></td>
+                    <td><textarea cols="40" rows="5" id="comment" name="comment" placeholder="Ihr Kommentar"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><input type="submit" value="Senden">
+                        <input type="reset" value="Zurücksetzen"></td>
+                </tr>
+            </table>
+        </fieldset>
+    </form>
+</section>
+<br>
+<footer>
+    Hotel Alpenblick &copy; 2019
+</footer>
+
+<datalist id="cities">
+    <option value="Linz">Linz</option>
+    <option value="Wien">Wien</option>
+    <option value="Salzburg">Salzburg</option>
+</datalist>
+</body>
+</html>
