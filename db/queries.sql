@@ -28,16 +28,16 @@ DELETE FROM guest WHERE guestid = :guestid;
 
 -- ## Drop-Offs and Pick-Ups
 -- List all Drop-Offs
--- TODO
+SELECT * FROM dropoff;
 
 -- List all Pick-Ups
--- TODO
+SELECT * FROM pickup;
 
 -- Add Drop-Off of Guest at time XX
--- TODO
+INSERT INTO dropoff (dateid, tripid, guestid) values (:dateid, :tripid, :guestid);
 
 -- Add Pick-Up of Guest at time XX
--- TODO
+INSERT INTO pickup (date, tripid, guestid) values (:date, :tripid, :guestid);
 
 -- ## Trips
 -- Get a list of all trips
@@ -49,11 +49,26 @@ SELECT t.tripid, t.direction, d.drivername, c.carname, t.timestart, t.timearriva
     ;
 
 -- Get list of cars with correct destination within timerange around XX
--- TODO
+select c.carid, t.tripid,t.timestart, t.timearrival, c.carname, c.carpassengers
+from cars c 
+join trip t on c.carid=t.carid
+where timestart between :timestart and :timestart
+and direction= :direction;
 
 -- Get amount of empty seats of trip YY
--- TODO
---
+-- Get amount of empty seats of trip YY for dropoff*
+select c.carpassengers - Count(guestid) AS emptyseats, t.tripid
+from trip t
+join dropoff d on t.tripid=d.tripid
+join cars c on t.carid=c.carid
+group by t.tripid;
+
+--Get amount of empty seats of trip XX for pickup*
+select c.carpassengers - Count(guestid) AS emptyseats,t.tripid
+from trip t
+join pickup p on t.tripid=p.tripid
+join cars c on t.carid=c.carid
+group by t.tripid;
 
 -- Get current position of each car (direction of last trip)
 -- TODO Not counting future/planned trips
