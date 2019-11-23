@@ -3,10 +3,9 @@ require_once 'Db.php';
 
 function addCar($name, $seats) {
   $db = Db::getDbObject();
-  $statement = $db->prepare("INSERT INTO shuttle (name, airport, seats) VALUES (:name, :airport, :seats)");
-  $statement->bindParam(':name', $name);
-  $statement->bindValue(':airport', 1);
-  $statement->bindParam(':seats', $seats, PDO::PARAM_INT);
+  $statement = $db->prepare("INSERT INTO cars (carname, carpassengers) VALUES (:carname, :carpassengers)");
+  $statement->bindParam(':carname', $name);
+  $statement->bindParam(':carpassengers', $seats, PDO::PARAM_INT);
   $statement->execute();
 
   $db = null;
@@ -15,19 +14,18 @@ function addCar($name, $seats) {
 
 function listCars() {
   $db = Db::getDbObject();
-  $query = 'SELECT * FROM shuttle';
+  $query = 'SELECT * FROM cars';
   // $result = $db->query($query);
   // Save Result as array (because connection will be closed afterwards!)
   $resultArray = $db->query($query)->fetchAll();
   $db = null; // close connection
-  //return $result->fetchAll();
   return $resultArray;
 }
 
 function deleteCar($carId) {
   $db = Db::getDbObject();
-  $statement = $db->prepare('DELETE FROM shuttle WHERE id = :carId');
-  $statement->bindParam(':carId', $carId, PDO::PARAM_INT);
+  $statement = $db->prepare('DELETE FROM cars WHERE carid = :carid');
+  $statement->bindParam(':carid', $carId, PDO::PARAM_INT);
   $statement->execute();
   $db = null;
   return listCars();
@@ -70,13 +68,13 @@ if ($_POST) {
     foreach (listCars() as $row) {
       ?>
         <tr>
-            <td><?= $row['id'] ?></td>
-            <td><?= $row['name'] ?></td>
-            <td><?= $row['seats'] ?></td>
+            <td><?= $row['carid'] ?></td>
+            <td><?= $row['carname'] ?></td>
+            <td><?= $row['carpassengers'] ?></td>
             <td>
                 <form action="car.php" method="post">
                     <input type="hidden" name="method" value="DELETE">
-                    <input type="hidden" name="carId" value="<?= $row['id'] ?>">
+                    <input type="hidden" name="carId" value="<?= $row['carid'] ?>">
                     <button type="submit">Delete</button>
                 </form>
             </td>

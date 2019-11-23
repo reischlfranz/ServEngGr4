@@ -2,12 +2,10 @@
 require_once 'Db.php';
 
 
-function addGuest($firstName, $lastName){
+function addGuest($guestName){
   $db = Db::getDbObject();
-  $statement = $db->prepare("INSERT INTO guest (firstname, lastname, hotel) VALUES (:firstName, :lastName, :hotel)");
-  $statement->bindParam(':firstName',$firstName);
-  $statement->bindParam(':lastName',$lastName);
-  $statement->bindValue(':hotel',1);
+  $statement = $db->prepare("INSERT INTO guest (guestname) VALUES (:guestName)");
+  $statement->bindParam(':guestName',$guestName);
   $statement->execute();
 
   $db = null;
@@ -27,8 +25,8 @@ function listGuests(){
 
 function deleteGuest($guestId){
   $db = Db::getDbObject();
-  $statement = $db->prepare('DELETE FROM guest WHERE id = :driverId');
-  $statement->bindParam(':driverId',$guestId, PDO::PARAM_INT);
+  $statement = $db->prepare('DELETE FROM guest WHERE guestid = :guestid');
+  $statement->bindParam(':guestid',$guestId, PDO::PARAM_INT);
   $statement->execute();
   $db = null;
   return listGuests();
@@ -41,9 +39,8 @@ if($_POST) {
     deleteGuest($_POST['guestId']);
   } else {
     // New Driver
-    if (empty($_POST['firstName'])) die("No firstName given!");
-    if (empty($_POST['lastName'])) die("No lastName given!");
-    addGuest($_POST['firstName'], $_POST['lastName']);
+    if (empty($_POST['guestName'])) die("No guestName given!");
+    addGuest($_POST['guestName']);
   }
 }
 
@@ -61,8 +58,7 @@ if($_POST) {
   <thead>
   <tr>
     <th>Guest ID</th>
-    <th>First Name</th>
-    <th>Last Name</th>
+    <th>Guest Name</th>
     <th><i>Delete</i></th>
   </tr>
   </thead>
@@ -71,13 +67,12 @@ if($_POST) {
   foreach (listGuests() as $row){
     ?>
     <tr>
-      <td><?= $row['id'] ?></td>
-      <td><?= $row['firstname'] ?></td>
-      <td><?= $row['lastname'] ?></td>
+      <td><?= $row['guestid'] ?></td>
+      <td><?= $row['guestname'] ?></td>
       <td>
         <form action="guest.php" method="post">
           <input type="hidden" name="method" value="DELETE">
-          <input type="hidden" name="guestId" value="<?= $row['id'] ?>">
+          <input type="hidden" name="guestId" value="<?= $row['guestid'] ?>">
           <button type="submit">Delete</button>
         </form>
       </td>
@@ -91,11 +86,9 @@ if($_POST) {
 <!-- -->
 <hr />
 <form action="guest.php" method="post">
-  <h3>Add Driver</h3>
-  <label for="firstName">First Name</label>
-  <input type="text" name="firstName">
-  <label for="lastName">Last Name</label>
-  <input type="text" name="lastName">
+  <h3>Add Guest</h3>
+  <label for="guestName">Guest Name</label>
+  <input type="text" name="guestName">
   <input type="submit">
 </form>
 <!-- -->

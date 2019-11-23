@@ -1,13 +1,10 @@
 <?php
 require_once 'Db.php';
 
-function addDriver($firstName, $lastName){
+function addDriver($name){
   $db = Db::getDbObject();
-  $statement = $db->prepare("INSERT INTO driver (firstname, lastname, airport, available) VALUES (:firstName, :lastName, :airport, :avail)");
-  $statement->bindParam(':firstName',$firstName);
-  $statement->bindParam(':lastName',$lastName);
-  $statement->bindValue(':airport',1);
-  $statement->bindValue(':avail',true);
+  $statement = $db->prepare("INSERT INTO drivers (drivername) VALUES (:name)");
+  $statement->bindParam(':name',$name);
   $statement->execute();
 
   $db = null;
@@ -16,19 +13,17 @@ function addDriver($firstName, $lastName){
 
 function listDrivers(){
   $db = Db::getDbObject();
-  $query = 'SELECT * FROM driver';
-  // $result = $db->query($query);
+  $query = 'SELECT * FROM drivers';
   // Save Result as array (because connection will be closed afterwards!)
   $resultArray = $db->query($query)->fetchAll();
   $db = null; // close connection
-  //return $result->fetchAll();
   return $resultArray;
 }
 
 function deleteDriver($driverId){
   $db = Db::getDbObject();
-  $statement = $db->prepare('DELETE FROM driver WHERE id = :driverId');
-  $statement->bindParam(':driverId',$driverId, PDO::PARAM_INT);
+  $statement = $db->prepare('DELETE FROM drivers WHERE driverid = :driverid');
+  $statement->bindParam(':driverid',$driverId, PDO::PARAM_INT);
   $statement->execute();
   $db = null;
   return listDrivers();
@@ -41,9 +36,8 @@ if($_POST) {
     deleteDriver($_POST['driverId']);
   } else {
     // New Driver
-    if (empty($_POST['firstName'])) die("No firstName given!");
-    if (empty($_POST['lastName'])) die("No lastName given!");
-    addDriver($_POST['firstName'], $_POST['lastName']);
+    if (empty($_POST['driverName'])) die("No driverName given!");
+    addDriver($_POST['driverName']);
   }
 }
 
@@ -61,8 +55,7 @@ if($_POST) {
   <thead>
   <tr>
     <th>Driver ID</th>
-    <th>First Name</th>
-    <th>Last Name</th>
+    <th>Driver Name</th>
     <th><i>Delete</i></th>
   </tr>
   </thead>
@@ -71,13 +64,12 @@ if($_POST) {
   foreach (listDrivers() as $row){
     ?>
   <tr>
-    <td><?= $row['id'] ?></td>
-    <td><?= $row['firstname'] ?></td>
-    <td><?= $row['lastname'] ?></td>
+    <td><?= $row['driverid'] ?></td>
+    <td><?= $row['drivername'] ?></td>
     <td>
       <form action="driver.php" method="post">
         <input type="hidden" name="method" value="DELETE">
-        <input type="hidden" name="driverId" value="<?= $row['id'] ?>">
+        <input type="hidden" name="driverId" value="<?= $row['driverid'] ?>">
         <button type="submit">Delete</button>
       </form>
     </td>
@@ -92,10 +84,8 @@ if($_POST) {
 <hr />
 <form action="driver.php" method="post">
   <h3>Add Driver</h3>
-  <label for="firstName">First Name</label>
-  <input type="text" name="firstName">
-  <label for="lastName">Last Name</label>
-  <input type="text" name="lastName">
+  <label for="driverName">Driver Name</label>
+  <input type="text" name="driverName">
   <input type="submit">
 </form>
 <!-- -->

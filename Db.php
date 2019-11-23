@@ -3,78 +3,62 @@
 class Db
 {
   private static $dbConString = 'sqlite:db/database.db';
+  private static $dbVersionRequired = 2;
 
+  /**
+   * Request a database connection object with configured database connection string.
+   * Tests for correct version of database schema, resets if not correct.
+   * @return PDO Database connection object
+   */
   static function getDbObject() {
     // Close after use!
     $db  = new PDO(self::$dbConString)
         or die("cannot open the database - please reset via <a href='Db.php?r=1'>THIS RESET LINK!</a>");
-    // Testing database currently not
-    //self::testDb($db);
-    self::testDb2($db);
+
+    // Testing database version
+    if(!self::isValidDb($db)){
+      self::resetDb($db);
+    }
+
+    // Return db connection object. Reset ( $db = null; ) after every use!
     return $db;
   }
 
-  private static function testDb2($db){
-    // more simple version
-    $result = $db->query("SELECT COUNT(name) AS cnt FROM sqlite_master");
-    // Count number of tables
-    $cnt = $result->fetchObject()->cnt;
-//    var_dump($cnt);
-    if($cnt < 8){
-
-
-      self::resetDb($db);
-    }
-  }
-  private static function testDb($db){
-    $resetPlz = true;
-    $statement = $db->prepare("SELECT COUNT(name) AS cnt FROM sqlite_master");
-    try{
-      $statement->execute();
-      // no success, database empty
-      $res = $statement->fetch(PDO::FETCH_OBJ);
-      if($res->cnt >= 8) {
-        //correct amount of tables
-        $resetPlz = false;
-      }
-    }catch (Exception $exception){
-      var_dump($exception);
-    }finally{
-      if($resetPlz) self::resetDb($db);
-    }
+  /**
+   * Tests for correct version of the database schema
+   * @param $db Database connection object
+   * @return boolean
+   */
+  private static function isValidDb($db){
+    $result = $db->query("SELECT version FROM version");
+    // return true/false if database is valid
+    return ($result && $result->fetchObject()->version == self::$dbVersionRequired);
   }
 
+  /**
+   * Reset database schema and fill with demo data
+   * @param $db Database connection object
+   */
   static function resetDb($db){
+    // Inform the user
     echo "<h1 style='color: red;'>Note: Database is being reset!</h1>";
 
-//    echo "<ul>";
+    // Reset the schema of database
     if ($sqlSchema = file_get_contents('db/db-schema.sql')) {
       $var_array = explode(';', $sqlSchema);
       foreach ($var_array as $value) {
-        if (!empty($value)) {
-
-          $db->exec($value . ';');
-//          echo "<li>" . $value . ';' . "<br></li>";
-//          var_dump($db->errorInfo());
-        }
-
+        $db->exec($value . ';');
       }
     }
-//    echo "</ul>done 1\n";
 
-//    echo "<ul>";
-    if($sqlData = file_get_contents('db/db-demodata.sql')) {
-      $var_array = explode(';',$sqlData);
-      foreach($var_array as $value) {
-        $db->exec($value.';');
-//        echo "<li>".$value.';'."<br></li>";
-//        var_dump($db->errorInfo());
+    // Fill the database with demo data
+    if ($sqlData = file_get_contents('db/db-demodata.sql')) {
+      $var_array = explode(';', $sqlData);
+      foreach ($var_array as $value) {
+        $db->exec($value . ';');
       }
     }
-//    echo "</ul>\n";
   }
-
-
 
 }
 if($_GET['r']==1) Db::resetDb();
