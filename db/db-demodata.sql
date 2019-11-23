@@ -1,0 +1,11 @@
+INSERT INTO Guest (guestName) VALUES ('Placido Domingo');
+INSERT INTO Guest (guestName) VALUES ('Janet Jackson');
+INSERT INTO Guest (guestName) VALUES ('Warren Buffett');
+INSERT INTO Drivers (driverName) VALUES ('Bob');
+INSERT INTO Drivers (driverName) VALUES ('Bert');
+INSERT INTO Trip (direction, driverId, carId, timeStart, timeArrival) VALUES ('Hotel->Airport', 1, 2, '11:30', '11:52');
+INSERT INTO Trip (direction, driverId, carId, timeStart, timeArrival) VALUES ('Airport->Hotel', 1, 2, '12:04', '12:26');
+INSERT INTO Trip (direction, driverId, carId, timeStart, timeArrival) VALUES ('Hotel->Airport', 2, 1, '13:30', '13:51');
+INSERT INTO Trip (direction, driverId, carId, timeStart, timeArrival) VALUES ('Airport->Hotel', 2, 1, '13:58', '14:20');
+INSERT INTO Cars (carName, carPassengers) VALUES ('Micra Mouse', 2);
+INSERT INTO Cars (carName, carPassengers) VALUES ('Van', 5);
