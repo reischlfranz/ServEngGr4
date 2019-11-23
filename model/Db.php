@@ -13,7 +13,7 @@ class Db
   static function getDbObject() {
     // Close after use!
     $db  = new PDO(self::$dbConString)
-        or die("cannot open the database - please reset via <a href='Db.php?r=1'>THIS RESET LINK!</a>");
+        or die("cannot open the database");
 
     // Testing database version
     if(!self::isValidDb($db)){
@@ -61,7 +61,4 @@ class Db
   }
 
 }
-if($_GET['r']==1) Db::resetDb();
-
-?>
 

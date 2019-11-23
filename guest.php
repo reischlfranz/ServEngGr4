@@ -1,46 +1,15 @@
 <?php
-require_once 'Db.php';
-
-
-function addGuest($guestName){
-  $db = Db::getDbObject();
-  $statement = $db->prepare("INSERT INTO guest (guestname) VALUES (:guestName)");
-  $statement->bindParam(':guestName',$guestName);
-  $statement->execute();
-
-  $db = null;
-  return listGuests();
-}
-
-function listGuests(){
-  $db = Db::getDbObject();
-  $query = 'SELECT * FROM guest';
-  // $result = $db->query($query);
-  // Save Result as array (because connection will be closed afterwards!)
-  $resultArray = $db->query($query)->fetchAll();
-  $db = null; // close connection
-  //return $result->fetchAll();
-  return $resultArray;
-}
-
-function deleteGuest($guestId){
-  $db = Db::getDbObject();
-  $statement = $db->prepare('DELETE FROM guest WHERE guestid = :guestid');
-  $statement->bindParam(':guestid',$guestId, PDO::PARAM_INT);
-  $statement->execute();
-  $db = null;
-  return listGuests();
-}
+require_once 'model/Guest.php';
 
 if($_POST) {
   if ($_POST['method'] == "DELETE") {
     // DELETE driver
     if(empty($_POST['guestId'])) die("No GuestId given");
-    deleteGuest($_POST['guestId']);
+    Guest::deleteGuest($_POST['guestId']);
   } else {
     // New Driver
     if (empty($_POST['guestName'])) die("No guestName given!");
-    addGuest($_POST['guestName']);
+    Guest::addGuest($_POST['guestName']);
   }
 }
 
@@ -64,7 +33,7 @@ if($_POST) {
   </thead>
   <tbody>
   <?php
-  foreach (listGuests() as $row){
+  foreach (Guest::listGuests() as $row){
     ?>
     <tr>
       <td><?= $row['guestid'] ?></td>

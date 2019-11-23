@@ -1,50 +1,18 @@
 <?php
-require_once 'Db.php';
-
-function addCar($name, $seats) {
-  $db = Db::getDbObject();
-  $statement = $db->prepare("INSERT INTO cars (carname, carpassengers) VALUES (:carname, :carpassengers)");
-  $statement->bindParam(':carname', $name);
-  $statement->bindParam(':carpassengers', $seats, PDO::PARAM_INT);
-  $statement->execute();
-
-  $db = null;
-  return listCars();
-}
-
-function listCars() {
-  $db = Db::getDbObject();
-  $query = 'SELECT * FROM cars';
-  // $result = $db->query($query);
-  // Save Result as array (because connection will be closed afterwards!)
-  $resultArray = $db->query($query)->fetchAll();
-  $db = null; // close connection
-  return $resultArray;
-}
-
-function deleteCar($carId) {
-  $db = Db::getDbObject();
-  $statement = $db->prepare('DELETE FROM cars WHERE carid = :carid');
-  $statement->bindParam(':carid', $carId, PDO::PARAM_INT);
-  $statement->execute();
-  $db = null;
-  return listCars();
-}
+require_once 'model/Car.php';
 
 if ($_POST) {
   if ($_POST['method'] == "DELETE") {
     // DELETE driver
     if (empty($_POST['carId'])) die("No CarId given");
-    deleteCar($_POST['carId']);
+    Car::deleteCar($_POST['carId']);
   } else {
     // New Driver
     if (empty($_POST['carName'])) die("No carName given!");
     if (empty($_POST['seats'])) die("No seats given!");
-    addCar($_POST['carName'], $_POST['seats']);
+    Car::addCar($_POST['carName'], $_POST['seats']);
   }
 }
-
-
 ?>
 
 <html>
@@ -65,7 +33,7 @@ if ($_POST) {
     </thead>
     <tbody>
     <?php
-    foreach (listCars() as $row) {
+    foreach (Car::listCars() as $row) {
       ?>
         <tr>
             <td><?= $row['carid'] ?></td>

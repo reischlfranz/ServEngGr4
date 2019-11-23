@@ -56,4 +56,3 @@ CREATE TABLE pickup
     guestid          NOT NULL REFERENCES guest,
     tripid           NOT NULL REFERENCES trip
 );
-

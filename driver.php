@@ -1,43 +1,17 @@
 <?php
-require_once 'Db.php';
 
-function addDriver($name){
-  $db = Db::getDbObject();
-  $statement = $db->prepare("INSERT INTO drivers (drivername) VALUES (:name)");
-  $statement->bindParam(':name',$name);
-  $statement->execute();
+require_once 'model/Driver.php';
 
-  $db = null;
-  return listDrivers();
-}
-
-function listDrivers(){
-  $db = Db::getDbObject();
-  $query = 'SELECT * FROM drivers';
-  // Save Result as array (because connection will be closed afterwards!)
-  $resultArray = $db->query($query)->fetchAll();
-  $db = null; // close connection
-  return $resultArray;
-}
-
-function deleteDriver($driverId){
-  $db = Db::getDbObject();
-  $statement = $db->prepare('DELETE FROM drivers WHERE driverid = :driverid');
-  $statement->bindParam(':driverid',$driverId, PDO::PARAM_INT);
-  $statement->execute();
-  $db = null;
-  return listDrivers();
-}
 
 if($_POST) {
   if ($_POST['method'] == "DELETE") {
     // DELETE driver
     if(empty($_POST['driverId'])) die("No DriverId given");
-    deleteDriver($_POST['driverId']);
+    Driver::deleteDriver($_POST['driverId']);
   } else {
     // New Driver
     if (empty($_POST['driverName'])) die("No driverName given!");
-    addDriver($_POST['driverName']);
+    Driver::addDriver($_POST['driverName']);
   }
 }
 
@@ -61,7 +35,7 @@ if($_POST) {
   </thead>
   <tbody>
 <?php
-  foreach (listDrivers() as $row){
+  foreach (Driver::listDrivers() as $row){
     ?>
   <tr>
     <td><?= $row['driverid'] ?></td>
