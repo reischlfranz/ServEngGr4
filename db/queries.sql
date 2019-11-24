@@ -30,11 +30,20 @@ DELETE FROM guest WHERE guestid = :guestid;
 -- List all Drop-Offs
 SELECT * FROM dropoff;
 
+-- List Guests with regards to drop-off
+SELECT g.guestid, g.guestname, d.date, d.tripid FROM guest g  LEFT OUTER JOIN dropoff d on g.guestid = d.guestid;
+
+-- List Guests *still* requiring drop-off
+SELECT * FROM guest g WHERE g.guestid NOT IN (SELECT guestid FROM dropoff d);
+
 -- List all Pick-Ups
 SELECT * FROM pickup;
 
+-- List Guests still requiring pickup
+SELECT * FROM guest g WHERE g.guestid NOT IN (SELECT guestid FROM pickup p);
+
 -- Add Drop-Off of Guest at time XX
-INSERT INTO dropoff (dateid, tripid, guestid) values (:dateid, :tripid, :guestid);
+INSERT INTO dropoff (date, tripid, guestid) values (:date, :tripid, :guestid);
 
 -- Add Pick-Up of Guest at time XX
 INSERT INTO pickup (date, tripid, guestid) values (:date, :tripid, :guestid);

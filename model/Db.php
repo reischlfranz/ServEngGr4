@@ -3,7 +3,7 @@
 class Db
 {
   private static $dbConString = 'sqlite:db/database.db';
-  private static $dbVersionRequired = 2;
+  private static $dbVersionRequired = 4;
 
   /**
    * Request a database connection object with configured database connection string.
@@ -26,10 +26,10 @@ class Db
 
   /**
    * Tests for correct version of the database schema
-   * @param $db Database connection object
+   * @param $db PDO Database connection object
    * @return boolean
    */
-  private static function isValidDb($db){
+  private static function isValidDb(PDO $db){
     $result = $db->query("SELECT version FROM version");
     // return true/false if database is valid
     return ($result && $result->fetchObject()->version == self::$dbVersionRequired);
@@ -37,9 +37,9 @@ class Db
 
   /**
    * Reset database schema and fill with demo data
-   * @param $db Database connection object
+   * @param $db PDO Database connection object
    */
-  static function resetDb($db){
+  static function resetDb(PDO $db){
     // Inform the user
     echo "<h1 style='color: red;'>Note: Database is being reset!</h1>";
 
