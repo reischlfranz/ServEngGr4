@@ -2,6 +2,7 @@
 require_once 'model/Db.php';
 require_once 'model/Driver.php';
 require_once 'model/Car.php';
+require_once 'model/Trip.php';
 
 function listTrips() {
   $db = Db::getDbObject();

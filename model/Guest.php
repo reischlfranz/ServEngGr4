@@ -15,7 +15,10 @@ class Guest {
 
   static function listGuests() {
     $db = Db::getDbObject();
-    $query = 'SELECT * FROM guest';
+    $query = 'SELECT g.guestid, g.guestname, d.date as dropoffdate, p.date as pickupdate  FROM guest g
+            LEFT OUTER JOIN dropoff d on g.guestid = d.guestid
+            LEFT OUTER JOIN pickup p on g.guestid = p.guestid
+            ';
     // $result = $db->query($query);
     // Save Result as array (because connection will< be closed afterwards  !)
     $resultArray = $db->query($query)->fetchAll();
@@ -36,7 +39,9 @@ class Guest {
     $db = Db::getDbObject();
     $query = 'SELECT g.guestid, g.guestname, d.date, d.tripid 
         FROM guest g 
-        LEFT OUTER JOIN dropoff d on g.guestid = d.guestid;';
+        LEFT OUTER JOIN dropoff d on g.guestid = d.guestid
+        WHERE tripid = null
+        ;';
     // Save Result as array (because connection will be closed afterwards!)
     $resultArray = $db->query($query)->fetchAll();
     $db = null; // close connection
@@ -58,7 +63,9 @@ class Guest {
     $db = Db::getDbObject();
     $query = 'SELECT g.guestid, g.guestname, p.date, p.tripid 
         FROM guest g 
-        LEFT OUTER JOIN pickup p on g.guestid = p.guestid;';
+        LEFT OUTER JOIN pickup p on g.guestid = p.guestid
+        WHERE tripid = null
+        ;';
     // Save Result as array (because connection will be closed afterwards!)
     $resultArray = $db->query($query)->fetchAll();
     $db = null; // close connection

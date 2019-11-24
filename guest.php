@@ -34,6 +34,8 @@ if($_POST) {
   <tr>
     <th>Guest ID</th>
     <th>Guest Name</th>
+    <th>Pickup</th>
+    <th>Dropoff</th>
     <th><i>Delete</i></th>
   </tr>
   </thead>
@@ -44,6 +46,8 @@ if($_POST) {
     <tr>
       <td><?= $row['guestid'] ?></td>
       <td><?= $row['guestname'] ?></td>
+      <td><?= empty($row['pickupdate']) ? "N/A" : $row['pickupdate'] ?></td>
+      <td><?= empty($row['dropoffdate']) ? "N/A" : $row['dropoffdate'] ?></td>
       <td>
         <form action="guest.php" method="post">
           <input type="hidden" name="method" value="DELETE">

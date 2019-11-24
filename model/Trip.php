@@ -1,6 +1,6 @@
 <?php
 require_once 'model/Db.php';
-//require_once 'model/Driver.php';
+require_once 'model/Guest.php';
 
 class Trip {
 
