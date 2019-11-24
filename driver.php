@@ -19,13 +19,17 @@ if($_POST) {
 ?>
 
 <html>
+<head>
+    <!--adding Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
 <body>
-
-<a href="index.html">Back to main page</a>
-
+<h4>
+    <a href="index.html" class="badge badge-primary">Back to main page</a>
+</h4>
 <!-- -->
 <hr />
-<table>
+<table class="table table-hover">
   <thead>
   <tr>
     <th>Driver ID</th>
@@ -44,7 +48,7 @@ if($_POST) {
       <form action="driver.php" method="post">
         <input type="hidden" name="method" value="DELETE">
         <input type="hidden" name="driverId" value="<?= $row['driverid'] ?>">
-        <button type="submit">Delete</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
       </form>
     </td>
   </tr>

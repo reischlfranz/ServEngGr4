@@ -17,13 +17,19 @@ if($_POST) {
 ?>
 
 <html>
-<body>
+<head>
+    <!--adding Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
 
-<a href="index.html">Back to main page</a>
+<body>
+<h4>
+    <a href="index.html" class="badge badge-primary">Back to main page</a>
+</h4>
 
 <!-- -->
 <hr />
-<table>
+<table class="table table-hover">
   <thead>
   <tr>
     <th>Guest ID</th>
@@ -42,7 +48,7 @@ if($_POST) {
         <form action="guest.php" method="post">
           <input type="hidden" name="method" value="DELETE">
           <input type="hidden" name="guestId" value="<?= $row['guestid'] ?>">
-          <button type="submit">Delete</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
         </form>
       </td>
     </tr>
@@ -58,7 +64,7 @@ if($_POST) {
   <h3>Add Guest</h3>
   <label for="guestName">Guest Name</label>
   <input type="text" name="guestName">
-  <input type="submit">
+  <input type="submit" >
 </form>
 <!-- -->
 
