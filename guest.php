@@ -23,10 +23,10 @@ if($_POST) {
 </head>
 
 <body>
+<div class="container">
 <h4>
     <a href="index.html" class="badge badge-primary">Back to main page</a>
 </h4>
-
 <!-- -->
 <hr />
 <table class="table table-hover">
@@ -67,7 +67,7 @@ if($_POST) {
   <input type="submit" >
 </form>
 <!-- -->
-
+</div>
 
 </body>
 </html>
