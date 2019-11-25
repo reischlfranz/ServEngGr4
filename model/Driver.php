@@ -30,4 +30,20 @@ class Driver {
     $db = null;
     return self::listDrivers();
   }
+
+  static function checkAvailDriver($time){
+    $db = Db::getDbObject();
+    $statement = $db->prepare("SELECT * FROM drivers d 
+            WHERE d.driverid NOT IN(
+                SELECT trip.driverid FROM trip 
+                    WHERE strftime('%s', timestart) > (strftime('%s', :time) - strftime('%s', '0:30'))
+                    AND strftime('%s', timearrival) < (strftime('%s', :time) + strftime('%s', '0:30'))
+            )
+            ");
+    $statement->bindParam(':time', $time);
+    $statement->execute();
+    $resultArray = $statement->fetchAll();
+    $db = null;
+    return $resultArray;
+  }
 }

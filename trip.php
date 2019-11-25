@@ -1,23 +1,10 @@
 <?php
-require_once 'model/Db.php';
 require_once 'model/Driver.php';
 require_once 'model/Car.php';
 require_once 'model/Trip.php';
 
-function listTrips() {
-  $db = Db::getDbObject();
-  $query = "SELECT t.tripid, t.direction, d.drivername, c.carname, t.timestart, t.timearrival, 
-            (strftime('%s', timearrival) - strftime('%s', timestart) ) AS triptime
-            FROM trip t 
-            JOIN cars c on t.carid = c.carid
-            JOIN drivers d on t.driverid = d.driverid
-            ;
-            ";
-  // Save Result as array (because connection will be closed afterwards!)
-  $resultArray = $db->query($query)->fetchAll();
-  $db = null; // close connection
-  return $resultArray;
-}
+
+Trip::testTrips();
 
 ?>
 
@@ -48,7 +35,7 @@ function listTrips() {
     </thead>
     <tbody>
     <?php
-    foreach (listTrips() as $row){
+    foreach (Trip::listTrips() as $row){
         ?>
         <tr>
             <td><?= $row['direction'] ?></td>
@@ -60,10 +47,10 @@ function listTrips() {
             <td>??</td>
             <td>??</td>
             <td>
-                <form XXaction="trip.php" method="post">
+                <form action="trip.php" method="post">
                     <input type="hidden" name="method" value="DELETE">
                     <input type="hidden" name="tripId" value="<?= $row['id'] ?>">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" disabled="disabled" class="btn btn-danger">Delete</button>
                 </form>
             </td>
         </tr>
@@ -78,7 +65,7 @@ function listTrips() {
 <h5>
     <a href="guest.php" class="badge badge-primary">Gäste</a>
 </h5>
-<form Xaction="trip.php" method="post">
+<form action="trip.php" method="post">
     <h3>Fahrten hinzufügen</h3>
     <label for="direction">Richtung</label>
     <input type="text" name="direction" disabled="disabled">
@@ -108,18 +95,8 @@ function listTrips() {
 
     <input type="submit" disabled="disabled">
 </form>
+<!-- -->
 
-<!-- -->
-<hr />
-<form Xaction="driver.php" method="post">
-    <h3>Add Driver</h3>
-    <label for="firstName">First Name</label>
-    <input type="text" name="firstName">
-    <label for="lastName">Last Name</label>
-    <input type="text" name="lastName">
-    <input type="submit" disabled="disabled">
-</form>
-<!-- -->
 
 </div>
 </body>

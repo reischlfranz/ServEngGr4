@@ -28,9 +28,25 @@ class Car {
     $db = Db::getDbObject();
     $statement = $db->prepare('DELETE FROM cars WHERE carid = :carid');
     $statement->bindParam(':carid', $carId, PDO::PARAM_INT);
-    $statement->execute();
+    $result = $statement->execute();
     $db = null;
-    return self::listCars();
+    return result;
+  }
+
+  static function checkAvailCars($time){
+    $db = Db::getDbObject();
+    $statement = $db->prepare("SELECT * FROM cars c 
+            WHERE c.carid NOT IN(
+                SELECT trip.carid FROM trip 
+                    WHERE strftime('%s', timestart) > (strftime('%s', :time) - strftime('%s', '0:30'))
+                    AND strftime('%s', timearrival) < (strftime('%s', :time) + strftime('%s', '0:30'))
+            )
+            ");
+    $statement->bindParam(':time', $time);
+    $statement->execute();
+    $resultArray = $statement->fetchAll();
+    $db = null;
+    return $resultArray;
   }
 
 }

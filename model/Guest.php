@@ -1,5 +1,6 @@
 <?php
 require_once 'model/Db.php';
+require_once 'model/Trip.php';
 
 class Guest {
 
@@ -40,7 +41,7 @@ class Guest {
     $query = 'SELECT g.guestid, g.guestname, d.date, d.tripid 
         FROM guest g 
         LEFT OUTER JOIN dropoff d on g.guestid = d.guestid
-        WHERE tripid = null
+        WHERE tripid IS null
         ;';
     // Save Result as array (because connection will be closed afterwards!)
     $resultArray = $db->query($query)->fetchAll();
@@ -54,6 +55,7 @@ class Guest {
     $statement->bindParam(':date', $dropoffDate);
     $statement->bindParam(':guestid', $guestId);
     $result = $statement->execute();
+    Trip::testTrips();
 
     $db = null;
     return $result;
@@ -64,7 +66,7 @@ class Guest {
     $query = 'SELECT g.guestid, g.guestname, p.date, p.tripid 
         FROM guest g 
         LEFT OUTER JOIN pickup p on g.guestid = p.guestid
-        WHERE tripid = null
+        WHERE tripid IS null
         ;';
     // Save Result as array (because connection will be closed afterwards!)
     $resultArray = $db->query($query)->fetchAll();
@@ -80,6 +82,8 @@ class Guest {
     $result = $statement->execute();
 
     $db = null;
+    Trip::testTrips();
+
     return $result;
   }
 
