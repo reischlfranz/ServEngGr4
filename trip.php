@@ -29,8 +29,8 @@ Trip::testTrips();
         <th>Abfahrt</th>
         <th>Ankunft</th>
         <th>Fahrzeit (Sekunden)</th>
-        <th>Gäste</th>
-        <th>Freie Plätze</th>
+        <th>G&auml;ste</th>
+        <th>Freie Pl&auml;tze</th>
     </tr>
     </thead>
     <tbody>
@@ -63,10 +63,10 @@ Trip::testTrips();
 <!-- -->
 <hr />
 <h5>
-    <a href="guest.php" class="badge badge-primary">Gäste</a>
+    <a href="guest.php" class="badge badge-primary">G&auml;ste</a>
 </h5>
 <form action="trip.php" method="post">
-    <h3>Fahrten hinzufügen</h3>
+    <h3>Fahrten hinzuf&uuml;gen</h3>
     <label for="direction">Richtung</label>
     <input type="text" name="direction" disabled="disabled">
 

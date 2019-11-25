@@ -56,7 +56,7 @@ if(isset($_POST['method'])) {
         <input type="hidden" name="method" value="addpickup">
         <h3>Add pickup</h3>
         <label for="direction">Richtung</label>
-        <input type="text" name="direction" disabled="disabled" value="Airport->Hotel">
+        <input type="text" name="direction" disabled="disabled" value="Airport-&gt;Hotel">
 
         <label for="pickupguestselect">Guest</label>
         <select name="pickupguestselect">
@@ -78,7 +78,7 @@ if(isset($_POST['method'])) {
         <input type="hidden" name="method" value="adddropoff">
         <h3>Add dropoff</h3>
         <label for="direction">Richtung</label>
-        <input type="text" name="direction" disabled="disabled" value="Hotel->Airport">
+        <input type="text" name="direction" disabled="disabled" value="Hotel-&gt;Airport">
 
         <label for="dropoffguestselect">Guest</label>
         <select name="dropoffguestselect">
