@@ -1,0 +1,55 @@
+header, footer {
+text-align: center;
+background-color: #ff9999;
+color: white;
+font-family: "Poiret One";
+}
+
+body nav ul{
+background-color: #ff9999;
+}
+nav ul a{
+text-decoration:none;
+color: white;
+font-family: "Poiret One";
+}
+
+section h2{
+font-family: "Poiret One";	
+}
+
+input:focus{
+  border-width: 2px; 
+  border-style: solid;   
+  border-color: #ff9999;
+}
+
+select:focus{
+  border-width: 2px; 
+  border-style: solid;   
+  border-color: #ff9999;
+}
+
+textarea:focus{
+  border-width: 2px; 
+  border-style: solid;   
+  border-color: #ff9999;
+}
+
+section form table tr td select, textarea, input { 
+ margin: 10px; 
+  padding: 10px; 
+  border-width: 2px; 
+  border-style: dashed;   
+  border-color: #ff9999; 
+}
+
+section form table tr td input[type="submit"], input[type="reset"]{
+background-color: #ff9999;
+color: white;
+font-weight: bold; 
+border-width: 0;
+}
+
+
+

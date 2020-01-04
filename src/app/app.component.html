@@ -1,0 +1,144 @@
+<!-- Navigation -->
+<a class="menu-toggle rounded" href="#sd" (click)="openNav()">
+  <i id="#fas" class="fas fa-bars"></i>
+</a>
+<nav [class.active]="classApplied" id="sidebar-wrapper">
+  <ul class="sidebar-nav">
+    <li class="sidebar-brand">
+      <a class="js-scroll-trigger" href="#page" (click)="scrollToElement(top)">Hotel Blue Lagoon</a>
+    </li>
+    <li class="sidebar-nav-item">
+      <a class="js-scroll-trigger" href="#page" (click)="scrollToElement(top)">Home</a>
+    </li>
+    <li class="sidebar-nav-item">
+      <a class="js-scroll-trigger" href="#about" (click)="scrollToElement(about)">Über uns</a>
+    </li>
+    <li class="sidebar-nav-item">
+      <a class="js-scroll-trigger" href="#services" (click)="scrollToElement(offer)">Services</a>
+    </li>
+    <li class="sidebar-nav-item">
+      <a class="js-scroll-trigger" href="#contact" (click)="scrollToElement(contact)">Contact</a>
+    </li>
+  </ul>
+</nav>
+
+<!-- Header -->
+<header class="masthead d-flex" #top>
+  <div class="container text-center my-auto">
+    <h1 class="mb-1">Hotel Blue Lagoon</h1>
+    <h3 class="mb-5">
+      <em>Niemand entspannt sich so wie wir</em>
+    </h3>
+    <button type="button" class="btn btn-primary" (click)="scrollToElement(about)">Mehr erfahren</button>
+    <!-- <a class="btn btn-primary btn-xl" href="#about">Mehr erfahren</a> -->
+  </div>
+  <div class="overlay"></div>
+</header>
+
+<!-- About -->
+<section class="content-section bg-light" #about>
+  <div class="container text-center">
+    <div class="row">
+      <div class="col-lg-10 mx-auto">
+        <h2>Hotel Blue Lagoon ist der perfekte Ort um sich zu entspannen!</h2>
+        <p class="lead mb-5" align="justify">Das Hotel Blue Lagoon bietet alle Dienstleistungen eines modernen 5-Sterne Boutique Hotel im Zentrum Linz,
+          einschließlich freien WLAN-Internetzugang im gesamten Gebäude, und eine spektakuläre Terrasse und Pool. Das Haus verfügt
+          insgesamt über verschiedene Zimmertypen - ein fabelhaftes Penthouse inbegriffen - und bietet einen einzigartigen Panoramablick auf die gesamte „Himmellandschaft” in Linz.</p>
+
+        <p class="lead mb-5" align="justify">Ein brandneuer Bereich im 3. Stock, wo Gäste die traumhafte Terrasse, Pool und das Solarium genießen oder sich einfach hinlegen und nach
+          einem harten Tag auf Erkundungstour durch die Stadt relaxen können. Ein einzigartiger Bereich direkt im Herzen Linzs, die Erholungsoase des Hotels im dritten Stock,
+          verspricht Gästen eine einzigartige Möglichkeit, die Sonne und den spektakulären Panoramablick auf die Stadt zu genießen. Die Terrasse ist ganzjährig geöffnet tagsüber,
+          und stellt einen Ort absoluten Friedens und einen ruhigen, einzigartigen Zufluchtsort vom Tumult der Stadt dar und ist bestens für einen Wochenendtrip nach Linz geeignet.</p>
+        <button type="button" class="btn btn-dark btn-xl" (click)="scrollToElement(offer)">Was wir anbieten</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="content-section bg-primary text-white text-center"  #offer>
+  <div class="container">
+    <div class="content-section-heading">
+      <h2 class="mb-5">Was wir anbieten</h2>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+          <span class="service-icon rounded-circle mx-auto mb-3">
+            <i class="icon-feed"></i>
+          </span>
+        <h4>
+          <strong>FREIES WLAN</strong>
+        </h4>
+        <p class="text-faded mb-0">Wir bieten Ihnen freies WLAN im gesamten Bereich des Hotels</p>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-5 mb-lg-0">
+          <span class="service-icon rounded-circle mx-auto mb-3">
+            <i class="icon-home"></i>
+          </span>
+        <h4>
+          <strong>WOHLFÜHLEN</strong>
+        </h4>
+        <p class="text-faded mb-0">Bei uns können Sie entspannen und sich wie zu Hause fühlen</p>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-5 mb-md-0">
+          <span class="service-icon rounded-circle mx-auto mb-3">
+            <i class="icon-graduation"></i>
+          </span>
+        <h4>
+          <strong>ZERTIFIZIERUNG</strong>
+        </h4>
+        <p class="text-faded mb-0">Wir freuen uns sehr zum wiederholten Mal Gewinner des Zertifikats für Exzellenz 2019 zu sein
+          <i class="fas fa-heart"></i>
+          Danke!</p>
+      </div>
+      <div class="col-lg-3 col-md-6">
+          <span class="service-icon rounded-circle mx-auto mb-3" (click)="displayService(service)">
+            <a href="#nolink"><i class="icon-plane"></i></a>
+          </span>
+        <h4>
+          <strong>TRANSPORT-SERVICE</strong>
+        </h4>
+        <p class="text-faded mb-0">Klicken Sie auf das Symbol um einen Transport vom oder zum Flughafen zu buchen</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Hotel Guest Service -->
+<div #service>
+  <section *ngIf="isVisible" class="content-section bg-light text-white text-center" >
+    <div class="container">
+      <p style="color: #1d2124">TODO</p>
+    </div>
+  </section>
+</div>
+
+
+<!-- Map -->
+<section class="map" #contact>
+  <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=P%C3%B6stlingberg%201&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+  <br />
+</section>
+
+<!-- Footer -->
+<footer class="footer text-center">
+  <div class="container">
+    <ul class="list-inline mb-5">
+      <li class="list-inline-item">
+        <a class="social-link rounded-circle text-white mr-3" href="#">
+          <i class="icon-social-facebook"></i>
+        </a>
+      </li>
+      <li class="list-inline-item">
+        <a class="social-link rounded-circle text-white mr-3" href="#">
+          <i class="icon-social-twitter"></i>
+        </a>
+      </li>
+      <li class="list-inline-item">
+        <a class="social-link rounded-circle text-white" href="#">
+          <i class="icon-social-github"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
