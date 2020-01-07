@@ -90,12 +90,83 @@ paths:
           description: Not found
         500:
           description: Server error while deleting
+  /drivers:
+    get:
+      summary: Returns a list of drivers.
+      description: No
+      operationId: getAllDrivers
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Driver'
+    post:
+      summary: Add a new driver
+      operationId: addDriver
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: driverObject
+          description: New driver object to be added
+          schema:
+            $ref: '#/definitions/Driver'
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: '#/definitions/Driver'
+        400:
+          description: Bad parameters, invalid input
+        500:
+          description: Server error while inserting
+  /drivers/{driverid}:
+    get:
+      summary: Returns a single driver by ID
+      operationId: getSingleDriver
+      parameters:
+        - in: path
+          required: true
+          name: driverid
+          type: integer
+          format: int32
+          minimum: 0
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Driver'
+        404:
+          description: Not found
+    delete:
+      summary: Delete a single driver by ID
+      operationId: deleteDriver
+      parameters:
+        - in: path
+          required: true
+          name: driverid
+          type: integer
+          format: int32
+          minimum: 0
+      produces:
+        - application/json
+      responses:
+        204:
+          description: No content, successfully removed
+        404:
+          description: Not found
+        500:
+          description: Server error while deleting
 
 
-#  /drivers:
-#    get:
-#    post:
-#  /cars/{carId}:
 #  /guests:
 #  /guests/{guestId}:
 #  /trips:
@@ -121,5 +192,19 @@ definitions:
         type: integer
         format: int32
         example: 5
+  Driver:
+    type: object
+    required:
+      - drivername
+    properties:
+      driverid:
+        type: integer
+        format: int32
+        example: 17
+        readOnly: true
+      drivername:
+        type: string
+        example: Juan Juilos, Junior
+
 
 

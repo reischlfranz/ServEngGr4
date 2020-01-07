@@ -13,7 +13,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 $paths = explode("/", strtolower(ltrim($_SERVER['PATH_INFO'],'/')));
 $resource = $paths[0];
 
-// very crude manual routing
+// very ghetto crude manual routing
 switch ($resource){
   case 'cars':
 //    echo "CARS" . $method;

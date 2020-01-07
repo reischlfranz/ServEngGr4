@@ -5,7 +5,7 @@ class CarResource {
   static function callCars($pathArray, $body, $queryParam){
 
 
-    // Gettho sub routing
+    // Ghetto sub routing
     switch ($_SERVER['REQUEST_METHOD']){
       case 'GET':
         if (isset($pathArray[1])){
