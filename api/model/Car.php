@@ -8,10 +8,30 @@ class Car {
     $statement = $db->prepare("INSERT INTO cars (carname, carpassengers) VALUES (:carname, :carpassengers)");
     $statement->bindParam(':carname', $name);
     $statement->bindParam(':carpassengers', $seats, PDO::PARAM_INT);
+    $result = $statement->execute();
+    $db = null;
+    if(!$result){
+      // Insert failed
+      return false;
+    }
+    $db = Db::getDbObject();
+    // Get the object with the latest ID back
+    $statement = $db->prepare("SELECT *  FROM cars WHERE carid = (SELECT MAX(carid) FROM cars)");
     $statement->execute();
+    $result = $statement->fetch();
 
     $db = null;
-    return self::listCars();
+    return $result;
+  }
+
+  static function getCar($carId) {
+    $db = Db::getDbObject();
+    $statement = $db->prepare("SELECT * FROM cars WHERE carid = :carid");
+    $statement->bindParam(':carid', $carId, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch();
+    $db = null; // close connection
+    return $result;
   }
 
   static function listCars() {
@@ -35,9 +55,9 @@ class Car {
 
   static function checkAvailCars($time){
     $db = Db::getDbObject();
-    $statement = $db->prepare("SELECT * FROM cars c 
+    $statement = $db->prepare("SELECT * FROM cars c
             WHERE c.carid NOT IN(
-                SELECT trip.carid FROM trip 
+                SELECT trip.carid FROM trip
                     WHERE strftime('%s', timestart) > (strftime('%s', :time) - strftime('%s', '0:30'))
                     AND strftime('%s', timearrival) < (strftime('%s', :time) + strftime('%s', '0:30'))
             )
