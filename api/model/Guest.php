@@ -9,8 +9,31 @@ class Guest {
     $statement = $db->prepare("INSERT INTO guest (guestname) VALUES (:guestName)");
     $statement->bindParam(':guestName', $guestName);
     $result = $statement->execute();
+    $db = null;
+    if(!$result){
+      // Insert failed
+      return false;
+    }
+    $db = Db::getDbObject();
+    // Get the object with the latest ID back
+    $statement = $db->prepare("SELECT *  FROM guest WHERE guestid = (SELECT MAX(guestid) FROM guest)");
+    $statement->execute();
+    $result = $statement->fetch();
 
     $db = null;
+    return $result;
+  }
+
+  static function getGuest($guestid) {
+    $db = Db::getDbObject();
+    $statement = $db->prepare("SELECT g.guestid, g.guestname, d.date as dropoffdate, p.date as pickupdate  FROM guest g
+            LEFT OUTER JOIN dropoff d on g.guestid = d.guestid
+            LEFT OUTER JOIN pickup p on g.guestid = p.guestid
+            WHERE g.guestid = :guestid");
+    $statement->bindParam(':guestid', $guestid, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch();
+    $db = null; // close connection
     return $result;
   }
 
@@ -38,8 +61,8 @@ class Guest {
 
   static function listGuestsForDropOff(){
     $db = Db::getDbObject();
-    $query = 'SELECT g.guestid, g.guestname, d.date, d.tripid 
-        FROM guest g 
+    $query = 'SELECT g.guestid, g.guestname, d.date, d.tripid
+        FROM guest g
         LEFT OUTER JOIN dropoff d on g.guestid = d.guestid
         WHERE tripid IS null
         ;';
@@ -63,8 +86,8 @@ class Guest {
 
   static function listGuestsForPickUp(){
     $db = Db::getDbObject();
-    $query = 'SELECT g.guestid, g.guestname, p.date, p.tripid 
-        FROM guest g 
+    $query = 'SELECT g.guestid, g.guestname, p.date, p.tripid
+        FROM guest g
         LEFT OUTER JOIN pickup p on g.guestid = p.guestid
         WHERE tripid IS null
         ;';

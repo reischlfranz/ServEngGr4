@@ -1,6 +1,10 @@
 <?php
 require_once 'model/Car.php';
+require_once 'model/Driver.php';
+require_once 'model/Guest.php';
 require_once 'resource/CarResource.php';
+require_once 'resource/DriverResource.php';
+require_once 'resource/GuestResource.php';
 
 // Read the request body (for POST/PUT methods - ignore for others):
 $inp = fopen("php://input", "r");
@@ -16,16 +20,13 @@ $resource = $paths[0];
 // very ghetto crude manual routing
 switch ($resource){
   case 'cars':
-//    echo "CARS" . $method;
     CarResource::callCars($paths, $body, $method);
-
-
     break;
   case 'drivers':
-
+    DriverResource::callDriver($paths, $body, $method);
     break;
-
   case 'guests':
+    GuestResource::callGuest($paths, $body, $method);
 
     break;
   case 'trips':
