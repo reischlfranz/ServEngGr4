@@ -165,10 +165,83 @@ paths:
           description: Not found
         500:
           description: Server error while deleting
+  /guests:
+    get:
+      summary: Returns a list of guests.
+      description: No
+      operationId: getAllGuests
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Guest'
+    post:
+      summary: Add a new guest
+      operationId: addGuest
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: guestObject
+          description: New guest object to be added
+          schema:
+            $ref: '#/definitions/Guest'
+      responses:
+        201:
+          description: Created
+          schema:
+            $ref: '#/definitions/Guest'
+        400:
+          description: Bad parameters, invalid input
+        500:
+          description: Server error while inserting
+  /guests/{guestid}:
+    get:
+      summary: Returns a single guest by ID
+      operationId: getSingleGuest
+      parameters:
+        - in: path
+          required: true
+          name: guestid
+          type: integer
+          format: int32
+          minimum: 0
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Guest'
+        404:
+          description: Not found
+    delete:
+      summary: Delete a single guest by ID
+      operationId: deleteGuest
+      parameters:
+        - in: path
+          required: true
+          name: guestid
+          type: integer
+          format: int32
+          minimum: 0
+      produces:
+        - application/json
+      responses:
+        204:
+          description: No content, successfully removed
+        404:
+          description: Not found
+        500:
+          description: Server error while deleting
 
 
-#  /guests:
-#  /guests/{guestId}:
 #  /trips:
 #  /trips/{tripId}:
 
@@ -205,6 +278,19 @@ definitions:
       drivername:
         type: string
         example: Juan Juilos, Junior
+  Guest:
+    type: object
+    required:
+      - guestname
+    properties:
+      guestid:
+        type: integer
+        format: int32
+        example: 241
+        readOnly: true
+      guestname:
+        type: string
+        example: Lady Trent, Isabella Camhurst
 
 
 
