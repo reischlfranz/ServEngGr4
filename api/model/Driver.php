@@ -17,7 +17,7 @@ class Driver {
     // Get the object with the latest ID back
     $statement = $db->prepare("SELECT *  FROM drivers WHERE driverid = (SELECT MAX(driverid) FROM drivers)");
     $statement->execute();
-    $result = $statement->fetch();
+    $result = $statement->fetch(PDO::FETCH_OBJ);
 
     $db = null;
     return $result;
@@ -28,7 +28,7 @@ class Driver {
     $statement = $db->prepare("SELECT * FROM drivers WHERE driverid = :driverid");
     $statement->bindParam(':driverid', $driverId, PDO::PARAM_INT);
     $statement->execute();
-    $result = $statement->fetch();
+    $result = $statement->fetch(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $result;
   }
@@ -37,7 +37,7 @@ class Driver {
     $db = Db::getDbObject();
     $query = 'SELECT * FROM drivers';
     // Save Result as array (because connection will be closed afterwards!)
-    $resultArray = $db->query($query)->fetchAll();
+    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $resultArray;
   }
@@ -62,7 +62,7 @@ class Driver {
             ");
     $statement->bindParam(':time', $time);
     $statement->execute();
-    $resultArray = $statement->fetchAll();
+    $resultArray = $statement->fetchAll(PDO::FETCH_OBJ);
     $db = null;
     return $resultArray;
   }

@@ -18,7 +18,7 @@ class Guest {
     // Get the object with the latest ID back
     $statement = $db->prepare("SELECT *  FROM guest WHERE guestid = (SELECT MAX(guestid) FROM guest)");
     $statement->execute();
-    $result = $statement->fetch();
+    $result = $statement->fetch(PDO::FETCH_OBJ);
 
     $db = null;
     return $result;
@@ -32,7 +32,7 @@ class Guest {
             WHERE g.guestid = :guestid");
     $statement->bindParam(':guestid', $guestid, PDO::PARAM_INT);
     $statement->execute();
-    $result = $statement->fetch();
+    $result = $statement->fetch(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $result;
   }
@@ -45,7 +45,7 @@ class Guest {
             ';
     // $result = $db->query($query);
     // Save Result as array (because connection will< be closed afterwards  !)
-    $resultArray = $db->query($query)->fetchAll();
+    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $resultArray;
   }
@@ -67,7 +67,7 @@ class Guest {
         WHERE tripid IS null
         ;';
     // Save Result as array (because connection will be closed afterwards!)
-    $resultArray = $db->query($query)->fetchAll();
+    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $resultArray;
   }
@@ -92,7 +92,7 @@ class Guest {
         WHERE tripid IS null
         ;';
     // Save Result as array (because connection will be closed afterwards!)
-    $resultArray = $db->query($query)->fetchAll();
+    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $resultArray;
   }
@@ -114,7 +114,7 @@ class Guest {
     $db = Db::getDbObject();
     $query = 'SELECT * FROM guest g WHERE g.guestid NOT IN (SELECT guestid FROM pickup p);';
     // Save Result as array (because connection will be closed afterwards!)
-    $resultArray = $db->query($query)->fetchAll();
+    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $resultArray;
   }

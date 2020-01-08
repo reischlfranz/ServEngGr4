@@ -18,7 +18,7 @@ class Car {
     // Get the object with the latest ID back
     $statement = $db->prepare("SELECT *  FROM cars WHERE carid = (SELECT MAX(carid) FROM cars)");
     $statement->execute();
-    $result = $statement->fetch();
+    $result = $statement->fetch(PDO::FETCH_OBJ);
 
     $db = null;
     return $result;
@@ -29,7 +29,7 @@ class Car {
     $statement = $db->prepare("SELECT * FROM cars WHERE carid = :carid");
     $statement->bindParam(':carid', $carId, PDO::PARAM_INT);
     $statement->execute();
-    $result = $statement->fetch();
+    $result = $statement->fetch(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $result;
   }
@@ -39,7 +39,7 @@ class Car {
     $query = 'SELECT * FROM cars';
     // $result = $db->query($query);
     // Save Result as array (because connection will be closed afterwards!)
-    $resultArray = $db->query($query)->fetchAll();
+    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $resultArray;
   }
@@ -64,7 +64,7 @@ class Car {
             ");
     $statement->bindParam(':time', $time);
     $statement->execute();
-    $resultArray = $statement->fetchAll();
+    $resultArray = $statement->fetchAll(PDO::FETCH_OBJ);
     $db = null;
     return $resultArray;
   }
