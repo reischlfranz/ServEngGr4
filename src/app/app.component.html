@@ -19,6 +19,9 @@
     <li class="sidebar-nav-item">
       <a class="js-scroll-trigger" href="#contact" (click)="scrollToElement(contact)">Contact</a>
     </li>
+    <li class="sidebar-nav-item">
+      <a class="js-scroll-trigger" href="#admin" (click)="scrollToElement(admin)">Admin</a>
+    </li>
   </ul>
 </nav>
 
@@ -56,7 +59,7 @@
 </section>
 
 <!-- Services -->
-<section class="content-section bg-primary text-white text-center"  #offer>
+<section class="content-section bg-primary text-white text-center" #offer>
   <div class="container">
     <div class="content-section-heading">
       <h2 class="mb-5">Was wir anbieten</h2>
@@ -106,25 +109,15 @@
 
 <!-- Hotel Guest Service -->
 <div #service>
-  <section *ngIf="isVisible" class="content-section bg-light text-white text-center" >
+  <section *ngIf="isVisible" class="content-section bg-light text-white text-center">
     <div class="container">
       <div id="carList" style="color: #1d2124">
-       <h2>Verfügbare Transportmittel:</h2>
-        <ul>
-         <li *ngFor="let car of cars" style="color: #1d2124"> 
-          ID: {{car.carid}} | Bezeichnung: {{car.carname}} | Max. Passagiere: {{car.carpassengers}} 
-         </li>
-        </ul>
+        <h2>Verfügbare Transportmittel:</h2>
       </div>
     </div>
     <div class="container">
       <div id="DriverList" style="color: #1d2124">
-       <h2>Fahrer:</h2>
-        <ul>
-         <li *ngFor="let driver of drivers" style="color: #1d2124"> 
-          ID: {{driver.driverid}} | Name: {{driver.drivername}} 
-         </li>
-        </ul>
+        <h2>Fahrer:</h2>
       </div>
     </div>
   </section>
@@ -133,8 +126,85 @@
 
 <!-- Map -->
 <section class="map" #contact>
-  <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=P%C3%B6stlingberg%201&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
-  <br />
+  <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+          src="https://maps.google.com/maps?q=P%C3%B6stlingberg%201&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+  <br/>
+</section>
+
+
+<section class="container mt-5" #admin>
+
+  <div class="d-flex">
+    <h2 style="color: #1D809F;">Fahrer</h2>
+    <button style="background-color: #1D809F; color: white;"
+            class="ml-auto my-2"
+            (click)="addingDriver = true"
+            *ngIf="!addingDriver"
+    >
+      Fahrer hinzufügen
+    </button>
+  </div>
+  <table class="table table-bordered">
+    <tr>
+      <td>ID</td>
+      <td>Name</td>
+      <td></td>
+    </tr>
+    <tr *ngFor="let driver of drivers">
+      <td>{{driver.driverid}}</td>
+      <td>{{driver.drivername}}</td>
+      <td>
+        <button class="bg-danger text-white" (click)=deleteDriver(driver)>Löschen</button>
+      </td>
+    </tr>
+    <tr *ngIf="addingDriver">
+      <td></td>
+      <td><input type="text" [(ngModel)]="newDriverName"></td>
+      <td>
+        <button class="bg-success text-white" (click)="addingDriver=false; addDriver(newDriverName); newDriverName='';">Speichern</button>
+      </td>
+    </tr>
+  </table>
+  <br>
+  <hr>
+  <br>
+
+
+  <div class="d-flex">
+    <h2 style="color: #1D809F;">Autos</h2>
+    <button style="background-color: #1D809F; color: white;"
+            class="ml-auto my-2"
+            (click)="addingCar = true"
+            *ngIf="!addingCar"
+    >
+      Auto hinzufügen
+    </button>
+  </div>
+  <table class="table table-bordered">
+    <tr>
+      <td>ID</td>
+      <td>Bezeichnung</td>
+      <td>Max. Passagiere</td>
+      <td></td>
+    </tr>
+    <tr *ngFor="let car of cars">
+      <td>{{car.carid}}</td>
+      <td>{{car.carname}}</td>
+      <td>Max. {{car.carpassengers}}</td>
+      <td>
+        <button class="bg-danger text-white" (click)=deleteCar(car)>Löschen</button>
+      </td>
+    </tr>
+    <tr *ngIf="addingCar">
+      <td></td>
+      <td><input type="text" [(ngModel)]="newCarName"></td>
+      <td><input type="number" [(ngModel)]="newCarNumber"></td>
+      <td>
+        <button class="bg-success text-white" (click)="addingCar=false; addCar(newCarName, newCarNumber); newCarName=''; newCarNumber=0">Speichern</button>
+      </td>
+    </tr>
+  </table>
+
 </section>
 
 <!-- Footer -->

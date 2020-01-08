@@ -15,6 +15,11 @@ export class AppComponent implements OnInit {
   title = 'HotelService';
   isVisible = false;
   classApplied = false;
+  addingCar = false;
+  addingDriver = false;
+  newCarName = '';
+  newCarNumber = 0;
+  newDriverName= '';
 
   cars: Car[];
   drivers: Driver[];
