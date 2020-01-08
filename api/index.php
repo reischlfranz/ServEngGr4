@@ -5,6 +5,7 @@ require_once 'model/Guest.php';
 require_once 'resource/CarResource.php';
 require_once 'resource/DriverResource.php';
 require_once 'resource/GuestResource.php';
+require_once 'resource/TripResource.php';
 
 // Read the request body (for POST/PUT methods - ignore for others):
 $inp = fopen("php://input", "r");
@@ -27,9 +28,12 @@ switch ($resource){
     break;
   case 'guests':
     GuestResource::callGuest($paths, $body, $method);
-
     break;
   case 'trips':
-
+    TripResource::callTrips($paths, $body, $method);
     break;
+  default:
+    // Route not available
+    http_response_code(404);
+    header('Reason: resource not available');
 }

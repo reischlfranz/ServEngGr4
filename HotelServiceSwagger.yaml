@@ -240,12 +240,39 @@ paths:
           description: Not found
         500:
           description: Server error while deleting
-
-
-#  /trips:
-#  /trips/{tripId}:
-
-
+  /trips:
+    get:
+      summary: Returns a list of trips.
+      operationId: listTrips
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Trip'
+  /trips/{tripId}:
+    get:
+      summary: Returns a single trip by ID
+      operationId: getSingleTrip
+      parameters:
+        - in: path
+          required: true
+          name: tripId
+          type: integer
+          format: int32
+          minimum: 0
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Trip'
+        404:
+          description: Not found
 definitions:
   Car:
     type: object
@@ -277,7 +304,7 @@ definitions:
         readOnly: true
       drivername:
         type: string
-        example: Juan Juilos, Junior
+        example: Juan Julios, Junior
   Guest:
     type: object
     required:
@@ -291,6 +318,43 @@ definitions:
       guestname:
         type: string
         example: Lady Trent, Isabella Camhurst
-
-
-
+  Trip:
+    type: object
+    required:
+      - guestname
+    properties:
+      tripId:
+        type: integer
+        format: int32
+        example: 3
+        readOnly: true
+      direction:
+        type: string
+        enum:
+          - Hotel -> Airport
+          - Airport -> Hotel
+      drivername:
+        type: string # Replace with object?
+        description: Name of driver
+        example: Juan Julios, Junior
+        readOnly: true
+      carname:
+        type: string # Replace with object?
+        description: Name of car
+        example: Fiat Multipla, red (and ugly)
+        readOnly: true
+      timestart:
+        type: number
+        format: 'time'
+        example: 13:30
+        readOnly: true
+      timearrival:
+        type: number
+        format: 'time'
+        example: 13:51
+        readOnly: true
+      triptime:
+        type: number
+        format: int32
+        readOnly: true
+        description: Time for trip in seconds
