@@ -108,7 +108,24 @@
 <div #service>
   <section *ngIf="isVisible" class="content-section bg-light text-white text-center" >
     <div class="container">
-      <p style="color: #1d2124">TODO</p>
+      <div id="carList" style="color: #1d2124">
+       <h2>Verfügbare Transportmittel:</h2>
+        <ul>
+         <li *ngFor="let car of cars" style="color: #1d2124"> 
+          ID: {{car.carid}} | Bezeichnung: {{car.carname}} | Max. Passagiere: {{car.carpassengers}} 
+         </li>
+        </ul>
+      </div>
+    </div>
+    <div class="container">
+      <div id="DriverList" style="color: #1d2124">
+       <h2>Fahrer:</h2>
+        <ul>
+         <li *ngFor="let driver of drivers" style="color: #1d2124"> 
+          ID: {{driver.driverid}} | Name: {{driver.drivername}} 
+         </li>
+        </ul>
+      </div>
     </div>
   </section>
 </div>
