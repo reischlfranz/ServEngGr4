@@ -6,31 +6,43 @@ class Trip {
 
   static function getTrip($tripId) {
     $db = Db::getDbObject();
-    $statement = $db->prepare("SELECT t.tripid, t.direction, d.drivername, c.carname, t.timestart, t.timearrival,
+    $statement = $db->prepare("SELECT *,
             (strftime('%s', timearrival) - strftime('%s', timestart) ) AS triptime
             FROM trip t
-            JOIN cars c on t.carid = c.carid
-            JOIN drivers d on t.driverid = d.driverid
             WHERE t.tripid = :tripid
             ;");
     $statement->bindParam(':tripid', $tripId, PDO::PARAM_INT);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_OBJ);
     $db = null; // close connection
+    if(isset($result)){
+      $result->driver = Driver::getDriver($result->driverid);
+      unset($result->driverid);
+      $result->car = Car::getCar($result->carid);
+      unset($result->carid);
+    }
     return $result;
   }
   static function listTrips() {
     $db = Db::getDbObject();
-    $query = "SELECT t.tripid, t.direction, d.drivername, c.carname, t.timestart, t.timearrival,
-            (strftime('%s', timearrival) - strftime('%s', timestart) ) AS triptime
+    $query = "SELECT *, (strftime('%s', timearrival) - strftime('%s', timestart) ) AS triptime
             FROM trip t
-            JOIN cars c on t.carid = c.carid
-            JOIN drivers d on t.driverid = d.driverid
             ;
             ";
     // Save Result as array (because connection will be closed afterwards!)
     $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
     $db = null; // close connection
+    for ($i = 0; $i < sizeof($resultArray); $i++){
+      if(isset($resultArray[$i])){
+//        var_dump($resultArray[$i]);
+        $resultArray[$i]->driver = Driver::getDriver($resultArray[$i]->driverid);
+        unset($resultArray[$i]->driverid);
+        $resultArray[$i]->car = Car::getCar($resultArray[$i]->carid);
+        unset($resultArray[$i]->carid);
+//        var_dump($resultArray[$i]);
+      }
+    }
+
     return $resultArray;
   }
 

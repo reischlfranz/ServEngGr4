@@ -333,16 +333,10 @@ definitions:
         enum:
           - Hotel -> Airport
           - Airport -> Hotel
-      drivername:
-        type: string # Replace with object?
-        description: Name of driver
-        example: Juan Julios, Junior
-        readOnly: true
-      carname:
-        type: string # Replace with object?
-        description: Name of car
-        example: Fiat Multipla, red (and ugly)
-        readOnly: true
+      driver:
+        $ref: '#/definitions/Driver'
+      car:
+        $ref: '#/definitions/Car'
       timestart:
         type: number
         format: 'time'
