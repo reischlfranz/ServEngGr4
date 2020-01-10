@@ -7,6 +7,7 @@ import { map, catchError, tap } from 'rxjs/operators';
 import { Car } from './car';
 import { Driver } from './driver';
 import { Guest } from './guest';
+import { Trip } from './trip';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,25 @@ export class DataService {
   constructor(private http: HttpClient) { }
 
   //////// -------------------- //////////
+  //////// Rest Calls - Trips //////////
+
+    /** GET trip from the server */
+  getTrips(): Observable<Trip[]> {
+    return this.http.get<Trip[]>(this.apiUrl + '/trips')
+        .pipe(
+          catchError(this.handleError<Trip[]>('getTrips', []))
+        );
+  }
+
+  /** GET trip by id. Will 404 if id not found */
+  getTrip(id: number): Observable<Trip> {
+    const url = `${this.apiUrl + '/trips'}/${id}`;
+    return this.http.get<Trip>(url).pipe(
+      catchError(this.handleError<Trip>(`getTrip id=${id}`))
+    );
+  }
+
+  //////// -------------------- //////////
   //////// Rest Calls - Guests //////////
 
   /** GET guests from the server */
@@ -33,7 +53,7 @@ export class DataService {
         );
   }
 
-  /** GET driver by id. Will 404 if id not found */
+  /** GET guest by id. Will 404 if id not found */
   getGuest(id: number): Observable<Guest> {
     const url = `${this.apiUrl + '/guests'}/${id}`;
     return this.http.get<Guest>(url).pipe(
@@ -41,14 +61,14 @@ export class DataService {
     );
   }
 
-  /** POST: add a new car to the server */
+  /** POST: add a new guest to the server */
   addGuest(guest: Guest): Observable<Guest> {
     return this.http.post<Guest>(this.apiUrl + '/guests', guest, this.httpOptions).pipe(
       catchError(this.handleError<Guest>('addGuest'))
     );
   }
 
-  /** DELETE: delete the car from the server */
+  /** DELETE: delete the guest from the server */
   deleteGuest(guest: Guest | number): Observable<Guest> {
     const id = typeof guest === 'number' ? guest : guest.guestid;
     const url = `${this.apiUrl + '/guests'}/${id}`;
@@ -77,14 +97,14 @@ export class DataService {
     );
   }
 
-  /** POST: add a new car to the server */
+  /** POST: add a new driver to the server */
   addDriver(driver: Driver): Observable<Driver> {
     return this.http.post<Driver>(this.apiUrl + '/drivers', driver, this.httpOptions).pipe(
       catchError(this.handleError<Driver>('addDriver'))
     );
   }
 
-  /** DELETE: delete the car from the server */
+  /** DELETE: delete the driver from the server */
   deleteDriver(driver: Driver | number): Observable<Driver> {
     const id = typeof driver === 'number' ? driver : driver.driverid;
     const url = `${this.apiUrl + '/drivers'}/${id}`;

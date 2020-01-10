@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Trip } from './trip';
 import { Car } from './car';
 import { Driver } from './driver';
 import { Guest } from './guest';
@@ -18,9 +19,10 @@ export class AppComponent implements OnInit {
   addingCar = false;
   addingDriver = false;
   newCarName = '';
-  newCarNumber = 0;
-  newDriverName= '';
+  newCarPassengers = 0;
+  newDriverName = '';
 
+  trips: Trip[];
   cars: Car[];
   drivers: Driver[];
   guests: Guest[];
@@ -40,12 +42,19 @@ export class AppComponent implements OnInit {
 
   constructor(private dataService: DataService) { }
 
-  ngOnInit() { /* Get all Cars & Drivers at init */
+  ngOnInit() { /* Get all Trips, Cars, Drivers and Guests at init */
+    this.getTrips();
     this.getCars();
     this.getDrivers();
+    this.getGuests();
   }
 
   //////// GET //////////
+  getTrips(): void {
+    this.dataService.getTrips()
+    .subscribe(trips => this.trips = trips);
+  }
+
   getCars(): void {
     this.dataService.getCars()
     .subscribe(cars => this.cars = cars);
