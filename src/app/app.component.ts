@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
   newCarPassengers = 0;
   newDriverName = '';
 
-  trips: Trip[];
+  trips: Trip[]; //Array for Transportations
   cars: Car[];
   drivers: Driver[];
   guests: Guest[];

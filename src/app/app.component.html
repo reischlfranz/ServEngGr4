@@ -44,14 +44,21 @@
     <div class="row">
       <div class="col-lg-10 mx-auto">
         <h2>Hotel Blue Lagoon ist der perfekte Ort um sich zu entspannen!</h2>
-        <p class="lead mb-5" align="justify">Das Hotel Blue Lagoon bietet alle Dienstleistungen eines modernen 5-Sterne Boutique Hotel im Zentrum Linz,
-          einschließlich freien WLAN-Internetzugang im gesamten Gebäude, und eine spektakuläre Terrasse und Pool. Das Haus verfügt
-          insgesamt über verschiedene Zimmertypen - ein fabelhaftes Penthouse inbegriffen - und bietet einen einzigartigen Panoramablick auf die gesamte „Himmellandschaft” in Linz.</p>
+        <p class="lead mb-5" align="justify">Das Hotel Blue Lagoon bietet alle Dienstleistungen eines modernen 5-Sterne
+          Boutique Hotel im Zentrum Linz,
+          einschließlich freien WLAN-Internetzugang im gesamten Gebäude, und eine spektakuläre Terrasse und Pool. Das
+          Haus verfügt
+          insgesamt über verschiedene Zimmertypen - ein fabelhaftes Penthouse inbegriffen - und bietet einen
+          einzigartigen Panoramablick auf die gesamte „Himmellandschaft” in Linz.</p>
 
-        <p class="lead mb-5" align="justify">Ein brandneuer Bereich im 3. Stock, wo Gäste die traumhafte Terrasse, Pool und das Solarium genießen oder sich einfach hinlegen und nach
-          einem harten Tag auf Erkundungstour durch die Stadt relaxen können. Ein einzigartiger Bereich direkt im Herzen Linzs, die Erholungsoase des Hotels im dritten Stock,
-          verspricht Gästen eine einzigartige Möglichkeit, die Sonne und den spektakulären Panoramablick auf die Stadt zu genießen. Die Terrasse ist ganzjährig geöffnet tagsüber,
-          und stellt einen Ort absoluten Friedens und einen ruhigen, einzigartigen Zufluchtsort vom Tumult der Stadt dar und ist bestens für einen Wochenendtrip nach Linz geeignet.</p>
+        <p class="lead mb-5" align="justify">Ein brandneuer Bereich im 3. Stock, wo Gäste die traumhafte Terrasse, Pool
+          und das Solarium genießen oder sich einfach hinlegen und nach
+          einem harten Tag auf Erkundungstour durch die Stadt relaxen können. Ein einzigartiger Bereich direkt im Herzen
+          Linzs, die Erholungsoase des Hotels im dritten Stock,
+          verspricht Gästen eine einzigartige Möglichkeit, die Sonne und den spektakulären Panoramablick auf die Stadt
+          zu genießen. Die Terrasse ist ganzjährig geöffnet tagsüber,
+          und stellt einen Ort absoluten Friedens und einen ruhigen, einzigartigen Zufluchtsort vom Tumult der Stadt dar
+          und ist bestens für einen Wochenendtrip nach Linz geeignet.</p>
         <button type="button" class="btn btn-dark btn-xl" (click)="scrollToElement(offer)">Was wir anbieten</button>
       </div>
     </div>
@@ -90,7 +97,8 @@
         <h4>
           <strong>ZERTIFIZIERUNG</strong>
         </h4>
-        <p class="text-faded mb-0">Wir freuen uns sehr zum wiederholten Mal Gewinner des Zertifikats für Exzellenz 2019 zu sein
+        <p class="text-faded mb-0">Wir freuen uns sehr zum wiederholten Mal Gewinner des Zertifikats für Exzellenz 2019
+          zu sein
           <i class="fas fa-heart"></i>
           Danke!</p>
       </div>
@@ -108,20 +116,81 @@
 </section>
 
 <!-- Hotel Guest Service -->
-<div #service>
-  <section *ngIf="isVisible" class="content-section bg-light text-white text-center">
-    <div class="container">
-      <div id="carList" style="color: #1d2124">
-        <h2>Verfügbare Transportmittel:</h2>
-      </div>
+<section class="container mt-5" #service>
+  <div class="d-flex">
+    <h2 style="color: #1D809F;">Hotel Guest Service-Transport</h2>
+  </div>
+
+  <table class="table table-bordered">
+    <tr>
+      <td>ID</td>
+      <td>Richtung</td>
+      <td>Fahrer</td>
+      <td>Auto</td>
+      <td>Max Passagiere</td>
+      <td>Abfahrt</td>
+      <td>Ankunft</td>
+      <td>Fahrzeit</td>
+    </tr>
+    <tr *ngFor="let trip of trips">
+      <td>{{trip.tripid}}</td>
+      <td>{{trip.direction}}</td>
+      <td>{{trip.driver.drivername}}</td>
+      <td>{{trip.car.carname}}</td>
+      <td>{{trip.car.carpassengers}}</td>
+      <td>{{trip.timestart}}</td>
+      <td>{{trip.timearrival}}</td>
+      <td>{{trip.triptime}}</td>
+    </tr>
+  </table>
+
+  <div class="col-md-4 center-block">
+    <button class="bg-danger text-white">JETZT BUCHEN!</button>
+  </div>
+</section>
+
+
+<!--Booking Process -->
+<section class="content-section text-center" #booking>
+  <h2 style="color: #1D809F;">Transport Buchung </h2>  <br>
+
+  <form>
+    <div class="form-group">
+      <label class="h3" form="person">Namenseingabe</label> <br>
+      <label for="vorname">Vorname</label>
+      <input type="text" name="vorname" id="vorname" maxlength="30"> <br>
+      <label for="nachname">Nachname</label>
+      <input type="text" name="nachname" id="nachname" maxlength="40"> <br>
+      <label>Wähle deine Transportnummer</label> <br>
+      <select name="bookTripID"> <br>
+        <option *ngFor="let trip of trips" value="{{trip.tripid}}"> {{trip.tripid}}</option>
+      </select>
+
+      <input type="date" name="tripDate"> <br> <br>
+      <button type="reset">BUCHEN</button>
+      <br>
+      <button type="submit">ABBRECHEN</button>
+      <br>
     </div>
-    <div class="container">
-      <div id="DriverList" style="color: #1d2124">
-        <h2>Fahrer:</h2>
-      </div>
-    </div>
-  </section>
-</div>
+  </form>
+
+
+</section>
+
+<table class="table table-bordered">
+  <tr *ngIf="addingDriver">
+    <td></td>
+    <td><input type="text" [(ngModel)]="newDriverName"></td>
+    <td>
+      <button class="bg-success text-white" (click)="addingDriver=false; addDriver(newDriverName); newDriverName='';">
+        Speichern
+      </button>
+    </td>
+  </tr>
+</table>
+<br>
+<hr>
+<br>
 
 
 <!-- Map -->
@@ -133,7 +202,6 @@
 
 
 <section class="container mt-5" #admin>
-
   <div class="d-flex">
     <h2 style="color: #1D809F;">Fahrer</h2>
     <button style="background-color: #1D809F; color: white;"
@@ -161,7 +229,9 @@
       <td></td>
       <td><input type="text" [(ngModel)]="newDriverName"></td>
       <td>
-        <button class="bg-success text-white" (click)="addingDriver=false; addDriver(newDriverName); newDriverName='';">Speichern</button>
+        <button class="bg-success text-white" (click)="addingDriver=false; addDriver(newDriverName); newDriverName='';">
+          Speichern
+        </button>
       </td>
     </tr>
   </table>
@@ -198,9 +268,12 @@
     <tr *ngIf="addingCar">
       <td></td>
       <td><input type="text" [(ngModel)]="newCarName"></td>
-      <td><input type="number" [(ngModel)]="newCarNumber"></td>
+      <td><input type="number" [(ngModel)]="newCarPassengers"></td>
       <td>
-        <button class="bg-success text-white" (click)="addingCar=false; addCar(newCarName, newCarNumber); newCarName=''; newCarNumber=0">Speichern</button>
+        <button class="bg-success text-white"
+                (click)="addingCar=false; addCar(newCarName, newCarPassengers); newCarName=''; newCarPassengers=0">
+          Speichern
+        </button>
       </td>
     </tr>
   </table>

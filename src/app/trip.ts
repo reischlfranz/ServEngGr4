@@ -1,7 +1,7 @@
 import { Driver } from './driver';
 import { Car } from './car';
 
-export class Trip {
+export class Trip { // Transportation
     tripid: number;
     direction: string;
     driver: Driver;
