@@ -145,12 +145,12 @@
   </table>
 </section>
 
-<!--Booking Process -->
+<!--Booking Service -->
 <section class="content-section text-center" #booking>
   <h2 style="color: #1D809F;">Transport Buchung </h2>  <br>
   <form>
     <div class="form-group">
-      <label class="h3" form="person">Namenseingabe</label> <br>
+      <label class="h3" form="person">Formular</label> <br>
       <label for="vorname">Vorname: </label>
       <input type="text" name="vorname" id="vorname" maxlength="30"> <br>
       <label for="nachname">Nachname: </label>
@@ -161,8 +161,11 @@
       </select>
 
       <input type="date" name="tripDate"> <br> <br>
-      <button type="reset">BUCHEN</button>
-
+      <!--add Booking
+      <button class="bg-success text-white" (click)="addingBooking=false; addDriver();  ;">
+        BUCHEN
+      </button>
+-->
     </div>
   </form>
 </section>
@@ -268,37 +271,45 @@
       </td>
     </tr>
   </table>
+  <br>
+  <hr>
+  <br>
 </section>
+
 <!--Booking Table -->
-<section class="container mt-5" >
+<section class="container mt-5">
   <div class="d-flex">
     <h2 style="color: #1D809F;">Buchungen</h2>
   </div>
 
   <table class="table table-bordered">
     <tr>
-      <td>ID</td>
+      <td>Datum</td>
+      <td>Nachname</td>
+      <td>Vorname</td>
       <td>Richtung</td>
       <td>Fahrer</td>
       <td>Auto</td>
-      <td>Max Passagiere</td>
       <td>Abfahrt</td>
       <td>Ankunft</td>
       <td>Fahrzeit</td>
     </tr>
-    <tr *ngFor="let trip of trips">
-      <td>{{trip.tripid}}</td>
-      <td>{{trip.direction}}</td>
-      <td>{{trip.driver.drivername}}</td>
-      <td>{{trip.car.carname}}</td>
-      <td>{{trip.car.carpassengers}}</td>
-      <td>{{trip.timestart}}</td>
-      <td>{{trip.timearrival}}</td>
-      <td>{{trip.triptime}}</td>
-    </tr>
+    <!-- ANPASSEN !!
+    <tr *ngFor="let booking of bookings">
+      <td>{{}}</td>
+      <td>{{}}</td>
+      <td>{{}}</td>
+      <td>{{}}</td>
+      <td>{{}}</td>
+      <td>{{}}</td>
+      <td>{{}}</td>
+      <td>{{}}</td>
+      <td>
+        <button class="bg-danger text-white" (click)=deleteBooking(booking)>Löschen</button>
+      </td>
+    </tr> -->
   </table>
 </section>
-
 
 
 <!-- Footer -->
