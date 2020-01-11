@@ -7,6 +7,17 @@ require_once 'resource/DriverResource.php';
 require_once 'resource/GuestResource.php';
 require_once 'resource/TripResource.php';
 
+// Allow API access from everywhere
+header('Access-Control-Allow-Origin: *');
+header("Accept:application/json");
+
+// Catch the pre-flight request from browser
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+//  header("HTTP/1.1 200 ");
+  http_response_code(200);
+  header("Allow: OPTIONS, GET, POST, PUT, DELETE");
+  exit;}
+
 // Read the request body (for POST/PUT methods - ignore for others):
 $inp = fopen("php://input", "r");
 $reqBodyString = "";
@@ -17,8 +28,15 @@ fclose($inp);
 $method = $_SERVER['REQUEST_METHOD'];
 $paths = explode("/", strtolower(ltrim($_SERVER['PATH_INFO'],'/')));
 $resource = $paths[0];
-// Allow API access from everywhere
-header('Access-Control-Allow-Origin: *');
+
+//Debug code
+logheader($method);
+logheader(strlen($reqBodyString));
+$test = $reqBodyString;
+$test = str_ireplace("\n", "", $test);
+$test = str_ireplace("\r", "", $test);
+logheader($test);
+// End debug code
 
 // very ghetto crude manual routing
 switch ($resource){
@@ -38,4 +56,12 @@ switch ($resource){
     // Route not available
     http_response_code(404);
     header('Reason: resource not available');
+}
+
+
+$logindex = 1;
+
+function logheader($string){
+  header('LOG'.$GLOBALS['logindex'].':'.$string);
+  $GLOBALS['logindex']++;
 }
