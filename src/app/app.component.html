@@ -143,39 +143,30 @@
       <td>{{trip.triptime}}</td>
     </tr>
   </table>
-
-  <div class="col-md-4 center-block">
-    <button class="bg-danger text-white">JETZT BUCHEN!</button>
-  </div>
 </section>
-
 
 <!--Booking Process -->
 <section class="content-section text-center" #booking>
   <h2 style="color: #1D809F;">Transport Buchung </h2>  <br>
-
   <form>
     <div class="form-group">
       <label class="h3" form="person">Namenseingabe</label> <br>
-      <label for="vorname">Vorname</label>
+      <label for="vorname">Vorname: </label>
       <input type="text" name="vorname" id="vorname" maxlength="30"> <br>
-      <label for="nachname">Nachname</label>
+      <label for="nachname">Nachname: </label>
       <input type="text" name="nachname" id="nachname" maxlength="40"> <br>
-      <label>Wähle deine Transportnummer</label> <br>
+      <label>Wähle deine Transportdaten: </label> <br>
       <select name="bookTripID"> <br>
         <option *ngFor="let trip of trips" value="{{trip.tripid}}"> {{trip.tripid}}</option>
       </select>
 
       <input type="date" name="tripDate"> <br> <br>
       <button type="reset">BUCHEN</button>
-      <br>
-      <button type="submit">ABBRECHEN</button>
-      <br>
+
     </div>
   </form>
-
-
 </section>
+
 
 <table class="table table-bordered">
   <tr *ngIf="addingDriver">
@@ -277,8 +268,38 @@
       </td>
     </tr>
   </table>
-
 </section>
+<!--Booking Table -->
+<section class="container mt-5" >
+  <div class="d-flex">
+    <h2 style="color: #1D809F;">Buchungen</h2>
+  </div>
+
+  <table class="table table-bordered">
+    <tr>
+      <td>ID</td>
+      <td>Richtung</td>
+      <td>Fahrer</td>
+      <td>Auto</td>
+      <td>Max Passagiere</td>
+      <td>Abfahrt</td>
+      <td>Ankunft</td>
+      <td>Fahrzeit</td>
+    </tr>
+    <tr *ngFor="let trip of trips">
+      <td>{{trip.tripid}}</td>
+      <td>{{trip.direction}}</td>
+      <td>{{trip.driver.drivername}}</td>
+      <td>{{trip.car.carname}}</td>
+      <td>{{trip.car.carpassengers}}</td>
+      <td>{{trip.timestart}}</td>
+      <td>{{trip.timearrival}}</td>
+      <td>{{trip.triptime}}</td>
+    </tr>
+  </table>
+</section>
+
+
 
 <!-- Footer -->
 <footer class="footer text-center">

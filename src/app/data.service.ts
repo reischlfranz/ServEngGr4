@@ -15,7 +15,7 @@ import { Trip } from './trip';
 
 export class DataService {
 
-  apiUrl = 'http://virtserver.swaggerhub.com/reischl_franz/ServEngGr4/1.0.0';
+  apiUrl = 'http://localhost:8001/api';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
