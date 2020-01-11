@@ -31,15 +31,6 @@ $method = $_SERVER['REQUEST_METHOD'];
 $paths = explode("/", strtolower(ltrim($_SERVER['PATH_INFO'],'/')));
 $resource = $paths[0];
 
-//Debug code
-logheader($method);
-logheader(strlen($reqBodyString));
-$test = $reqBodyString;
-$test = str_ireplace("\n", "", $test);
-$test = str_ireplace("\r", "", $test);
-logheader($test);
-// End debug code
-
 // very ghetto crude manual routing
 switch ($resource){
   case 'cars':
@@ -60,10 +51,3 @@ switch ($resource){
     header('Reason: resource not available');
 }
 
-
-$logindex = 1;
-
-function logheader($string){
-  header('LOG'.$GLOBALS['logindex'].':'.$string);
-  $GLOBALS['logindex']++;
-}
