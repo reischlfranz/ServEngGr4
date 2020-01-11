@@ -146,25 +146,31 @@
 </section>
 
 <!--Booking Service -->
-<section class="content-section text-center" #booking>
-  <h2 style="color: #1D809F;">Transport Buchung </h2>  <br>
-  <form>
+<section class="container mt-5">
+<form class="content-section text-center">
+  <h2 style="color: #1D809F;">Transport Buchung </h2>
     <div class="form-group">
-      <label class="h3" form="person">Formular</label> <br>
-      <label for="vorname">Vorname: </label>
-      <input type="text" name="vorname" id="vorname" maxlength="30"> <br>
-      <label for="nachname">Nachname: </label>
-      <input type="text" name="nachname" id="nachname" maxlength="40"> <br>
-      <label>Wähle deine Transportdaten: </label> <br>
-      <select name="bookTripID"> <br>
+      <label class="h3" form="person">Formular</label>
+      <input type="text" id="bookingName" class="form-control mb-4" placeholder="Vorname">
+      <input type="text" id="bookingLastName" class="form-control mb-4" placeholder="Nachname">
+      <p class="h4 mb-4">Wähle dein Shuttle:</p>
+
+      <select class="browser-default custom-select mb-4" name="bookTripID" >
         <option *ngFor="let trip of trips" value="{{trip.tripid}}"> {{trip.tripid}}</option>
       </select>
 
-      <input type="date" name="tripDate"> <br> <br>
+      <input type="date" name="tripDate">
+      <br> <br>
+
+      <button class="bg-success text-white">
+        BUCHEN
+      </button>
       <!--add Booking
       <button class="bg-success text-white" (click)="addingBooking=false; addDriver();  ;">
         BUCHEN
       </button>
+          <button class="btn btn-info btn-block" type="submit">Send</button>
+
 -->
     </div>
   </form>
