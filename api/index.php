@@ -17,6 +17,8 @@ fclose($inp);
 $method = $_SERVER['REQUEST_METHOD'];
 $paths = explode("/", strtolower(ltrim($_SERVER['PATH_INFO'],'/')));
 $resource = $paths[0];
+// Allow API access from everywhere
+header('Access-Control-Allow-Origin: *');
 
 // very ghetto crude manual routing
 switch ($resource){
