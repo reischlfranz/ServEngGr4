@@ -151,14 +151,12 @@
   <h2 style="color: #1D809F;">Transport Buchung </h2>
     <div class="form-group">
       <label class="h3" form="person">Formular</label>
-      <input type="text" id="bookingName" class="form-control mb-4" placeholder="Vorname">
-      <input type="text" id="bookingLastName" class="form-control mb-4" placeholder="Nachname">
+      <input type="text" id="bookingName" class="form-control mb-4" placeholder="Name">
       <p class="h4 mb-4">Wähle dein Shuttle:</p>
 
       <select class="browser-default custom-select mb-4" name="bookTripID" >
         <option *ngFor="let trip of trips" value="{{trip.tripid}}"> {{trip.tripid}}</option>
       </select>
-
       <input type="date" name="tripDate">
       <br> <br>
 
@@ -291,8 +289,7 @@
   <table class="table table-bordered">
     <tr>
       <td>Datum</td>
-      <td>Nachname</td>
-      <td>Vorname</td>
+      <td>Name</td>
       <td>Richtung</td>
       <td>Fahrer</td>
       <td>Auto</td>
@@ -302,7 +299,6 @@
     </tr>
     <!-- ANPASSEN !!
     <tr *ngFor="let booking of bookings">
-      <td>{{}}</td>
       <td>{{}}</td>
       <td>{{}}</td>
       <td>{{}}</td>
