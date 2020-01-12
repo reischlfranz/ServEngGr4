@@ -240,6 +240,64 @@ paths:
           description: Not found
         500:
           description: Server error while deleting
+  /guests/{guestid}/pickup:
+    post:
+      summary: Adds a pickup trip for a guest by ID
+      parameters:
+        - in: path
+          required: true
+          name: guestid
+          type: integer
+          format: int32
+          minimum: 0
+        - in: body
+          name: tripid
+          required: true
+          schema:
+            type: object
+            properties:
+              tripid:
+                type: integer
+                format: int32
+                description: The trip ID
+                minimum: 0
+                example: 44
+      responses:
+        201:
+          description: Created
+        400:
+          description: Bad Request
+        404:
+          description: Not found
+  /guests/{guestid}/dropoff:
+    post:
+      summary: Adds a dropoff trip for a guest by ID
+      parameters:
+        - in: path
+          required: true
+          name: guestid
+          type: integer
+          format: int32
+          minimum: 0
+        - in: body
+          name: tripid
+          required: true
+          schema:
+            type: object
+            properties:
+              tripid:
+                type: integer
+                format: int32
+                description: The trip ID
+                minimum: 0
+                example: 45
+      responses:
+        201:
+          description: Created
+        400:
+          description: Bad Request
+        404:
+          description: Not found
   /trips:
     get:
       summary: Returns a list of trips.
@@ -273,6 +331,7 @@ paths:
             $ref: '#/definitions/Trip'
         404:
           description: Not found
+
 definitions:
   Car:
     type: object
@@ -321,7 +380,12 @@ definitions:
   Trip:
     type: object
     required:
-      - guestname
+      - direction
+      - driverId
+      - carId
+      - date
+      - timestart
+      - timearrival
     properties:
       tripId:
         type: integer
@@ -337,18 +401,27 @@ definitions:
         $ref: '#/definitions/Driver'
       car:
         $ref: '#/definitions/Car'
+      passengers:
+        type: array
+        readOnly: true
+        items:
+          $ref: '#/definitions/Guest'
+      date:
+        type: number
+        description: Date of transport
+        format: 'date'
+        example: '2020-02-17'
       timestart:
         type: number
         format: 'time'
-        example: 13:30
-        readOnly: true
+        example: '13:30'
       timearrival:
         type: number
         format: 'time'
-        example: 13:51
-        readOnly: true
+        example: '13:51'
       triptime:
         type: number
         format: int32
         readOnly: true
         description: Time for trip in seconds
+        example: 1260

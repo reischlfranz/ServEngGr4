@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS drivers;
 -- Mark version of Schema
 DROP TABLE IF EXISTS version;
 CREATE TABLE version(version INTEGER PRIMARY KEY, dt TIME NOT NULL);
-INSERT INTO version (version, dt) VALUES (4, date('2019-11-24'));
+INSERT INTO version (version, dt) VALUES (5, date('2020-01-12'));
 
 -- Create tables
 CREATE TABLE cars
@@ -25,34 +25,24 @@ CREATE TABLE drivers
     drivername VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE guest
-(
-    guestid   INTEGER      NOT NULL PRIMARY KEY AUTOINCREMENT,
-    guestname VARCHAR(100) NOT NULL
-);
-
 CREATE TABLE trip
 (
     tripid      INTEGER      NOT NULL PRIMARY KEY AUTOINCREMENT,
-    direction   VARCHAR(100) NOT NULL,
+    direction   VARCHAR(100) NOT NULL
+                CHECK ( direction IN ('Airport->Hotel', 'Hotel->Airport') ),
     driverid                 NOT NULL REFERENCES drivers,
     carid                    NOT NULL REFERENCES cars,
+    tripdate    DATE         NOT NULL,
     timestart   TIME         NOT NULL,
     timearrival TIME         NOT NULL
 );
 
-CREATE TABLE dropoff
+CREATE TABLE guest
 (
-    dropoffid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    date      TIME    NOT NULL,
-    guestid           NOT NULL UNIQUE REFERENCES guest,
-    tripid            REFERENCES trip
+    guestid   INTEGER      NOT NULL PRIMARY KEY AUTOINCREMENT,
+    guestname VARCHAR(100) NOT NULL,
+    pickuptrip             REFERENCES trip(tripid),
+    dropofftrip            REFERENCES trip(tripid)
 );
 
-CREATE TABLE pickup
-(
-    pickupid INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    date     DATE    NOT NULL,
-    guestid          NOT NULL UNIQUE REFERENCES guest,
-    tripid           REFERENCES trip
-);
+

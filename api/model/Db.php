@@ -3,7 +3,7 @@
 class Db
 {
   private static $dbConString = 'sqlite:db/database.db';
-  private static $dbVersionRequired = 4;
+  private static $dbVersionRequired = 5;
 
   /**
    * Request a database connection object with configured database connection string.
@@ -12,8 +12,15 @@ class Db
    */
   static function getDbObject() {
     // Close after use!
+//    echo "test";
+//    header("etest:1");
+//    die();
+    syslog(LOG_ERR, "Getting DB object");
     $db  = new PDO(self::$dbConString)
-        or die("cannot open the database");
+        or die("cannot open the database")
+        ;
+//    header("btest:1");
+    syslog(LOG_ERR, "DB object gotten got.");
 
     // Testing database version
     if(!self::isValidDb($db)){

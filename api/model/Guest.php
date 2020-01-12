@@ -26,9 +26,7 @@ class Guest {
 
   static function getGuest($guestid) {
     $db = Db::getDbObject();
-    $statement = $db->prepare("SELECT g.guestid, g.guestname, d.date as dropoffdate, p.date as pickupdate  FROM guest g
-            LEFT OUTER JOIN dropoff d on g.guestid = d.guestid
-            LEFT OUTER JOIN pickup p on g.guestid = p.guestid
+    $statement = $db->prepare("SELECT g.guestid, g.guestname  FROM guest g
             WHERE g.guestid = :guestid");
     $statement->bindParam(':guestid', $guestid, PDO::PARAM_INT);
     $statement->execute();
@@ -39,15 +37,33 @@ class Guest {
 
   static function listGuests() {
     $db = Db::getDbObject();
-    $query = 'SELECT g.guestid, g.guestname, d.date as dropoffdate, p.date as pickupdate  FROM guest g
-            LEFT OUTER JOIN dropoff d on g.guestid = d.guestid
-            LEFT OUTER JOIN pickup p on g.guestid = p.guestid
-            ';
-    // $result = $db->query($query);
+    $query = 'SELECT g.guestid, g.guestname FROM guest g';
     // Save Result as array (because connection will< be closed afterwards  !)
     $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
     $db = null; // close connection
     return $resultArray;
+  }
+
+  static function listTripGuests($tripId) {
+    $db = Db::getDbObject();
+    $statement = $db->prepare("SELECT g.guestid, g.guestname FROM guest g
+                WHERE g.pickuptrip=:tripid OR g.dropofftrip=:tripid;");
+    $statement->bindParam(':tripid', $tripId, PDO::PARAM_INT);
+    $statement->execute();
+    // Save Result as array (because connection will< be closed afterwards  !)
+    $resultArray = $statement->fetchAll(PDO::FETCH_OBJ);
+    $db = null; // close connection
+    return $resultArray;
+  }
+
+  static function addPickup($guestId, $tripId){
+    $db = Db::getDbObject();
+    $statement = $db->prepare('UPDATE guest SET pickuptrip=:pickuptrip WHERE guestid = :guestid');
+    $statement->bindParam(':guestid', $guestId, PDO::PARAM_INT);
+    $statement->bindParam(':pickuptrip', $tripId, PDO::PARAM_INT);
+    $result = $statement->execute();
+    $db = null; // close connection
+    return $result;
   }
 
   static function deleteGuest($guestId) {
@@ -72,51 +88,51 @@ class Guest {
     return $resultArray;
   }
 
-  static function addDropOff($guestId, $dropoffDate) {
-    $db = Db::getDbObject();
-    $statement = $db->prepare("INSERT INTO dropoff (date, guestid) values (:date, :guestid);");
-    $statement->bindParam(':date', $dropoffDate);
-    $statement->bindParam(':guestid', $guestId);
-    $result = $statement->execute();
-    Trip::testTrips();
+//  static function addDropOff($guestId, $dropoffDate) {
+//    $db = Db::getDbObject();
+//    $statement = $db->prepare("INSERT INTO dropoff (date, guestid) values (:date, :guestid);");
+//    $statement->bindParam(':date', $dropoffDate);
+//    $statement->bindParam(':guestid', $guestId);
+//    $result = $statement->execute();
+//    Trip::testTrips();
+//
+//    $db = null;
+//    return $result;
+//  }
+//
+//  static function listGuestsForPickUp(){
+//    $db = Db::getDbObject();
+//    $query = 'SELECT g.guestid, g.guestname, p.date, p.tripid
+//        FROM guest g
+//        LEFT OUTER JOIN pickup p on g.guestid = p.guestid
+//        WHERE tripid IS null
+//        ;';
+//    // Save Result as array (because connection will be closed afterwards!)
+//    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
+//    $db = null; // close connection
+//    return $resultArray;
+//  }
 
-    $db = null;
-    return $result;
-  }
-
-  static function listGuestsForPickUp(){
-    $db = Db::getDbObject();
-    $query = 'SELECT g.guestid, g.guestname, p.date, p.tripid
-        FROM guest g
-        LEFT OUTER JOIN pickup p on g.guestid = p.guestid
-        WHERE tripid IS null
-        ;';
-    // Save Result as array (because connection will be closed afterwards!)
-    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
-    $db = null; // close connection
-    return $resultArray;
-  }
-
-  static function addPickUp($guestId, $pickupDate) {
-    $db = Db::getDbObject();
-    $statement = $db->prepare("INSERT INTO pickup (date, guestid) values (:date, :guestid);");
-    $statement->bindParam(':date', $pickupDate);
-    $statement->bindParam(':guestid', $guestId);
-    $result = $statement->execute();
-
-    $db = null;
-    Trip::testTrips();
-
-    return $result;
-  }
-
-  static function listGuestsForPickUp1(){
-    $db = Db::getDbObject();
-    $query = 'SELECT * FROM guest g WHERE g.guestid NOT IN (SELECT guestid FROM pickup p);';
-    // Save Result as array (because connection will be closed afterwards!)
-    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
-    $db = null; // close connection
-    return $resultArray;
-  }
+//  static function addPickUp($guestId, $pickupDate) {
+//    $db = Db::getDbObject();
+//    $statement = $db->prepare("INSERT INTO pickup (date, guestid) values (:date, :guestid);");
+//    $statement->bindParam(':date', $pickupDate);
+//    $statement->bindParam(':guestid', $guestId);
+//    $result = $statement->execute();
+//
+//    $db = null;
+//    Trip::testTrips();
+//
+//    return $result;
+//  }
+//
+//  static function listGuestsForPickUp1(){
+//    $db = Db::getDbObject();
+//    $query = 'SELECT * FROM guest g WHERE g.guestid NOT IN (SELECT guestid FROM pickup p);';
+//    // Save Result as array (because connection will be closed afterwards!)
+//    $resultArray = $db->query($query)->fetchAll(PDO::FETCH_OBJ);
+//    $db = null; // close connection
+//    return $resultArray;
+//  }
 
 }

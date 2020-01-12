@@ -20,6 +20,8 @@ class Trip {
       unset($result->driverid);
       $result->car = Car::getCar($result->carid);
       unset($result->carid);
+      $result->passengers = Guest::listTripGuests(1);
+
     }
     return $result;
   }
@@ -39,6 +41,7 @@ class Trip {
         unset($resultArray[$i]->driverid);
         $resultArray[$i]->car = Car::getCar($resultArray[$i]->carid);
         unset($resultArray[$i]->carid);
+        $resultArray[$i]->passengers = Guest::listTripGuests($resultArray[$i]->tripid);
 //        var_dump($resultArray[$i]);
       }
     }
