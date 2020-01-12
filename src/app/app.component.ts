@@ -14,25 +14,82 @@ import { DataService } from './data.service';
 })
 export class AppComponent implements OnInit {
   title = 'HotelService';
-  isVisible = false;
+  isVisibleService = false;
+  isVisibleAdmin = false;
+
   classApplied = false;
   addingCar = false;
   addingDriver = false;
+  addingGuest = false;
+  addingBooking = false;
   newCarName = '';
   newCarPassengers = 0;
   newDriverName = '';
+  newGuestName = '';
+  guestId = 0;
+  pickupId = 0;
+  dropoffId = 0;
 
-  trips: Trip[]; //Array for Transportations
+  tripFilterDropoffs = {direction: 'Hotel->Airport'};
+  tripFilterPickups = {direction: 'Airport->Hotel'};
+
+  trips: Trip[]; // Array for Transportations
   cars: Car[];
   drivers: Driver[];
   guests: Guest[];
+
+  pickupTrips: Trip[];
+
+  onGuestSelected(id: number) {
+    this.guestId = id;
+  }
+
+  onPickupSelected(id: number) {
+    this.pickupId = id;
+  }
+
+  onDropoffSelected(id: number) {
+    this.dropoffId = id;
+  }
+
+  checkGuestPickup(guestId: number): number {
+    let tripId = 0;
+    this.trips.forEach((trip) => {
+      if (trip.direction === 'Airport->Hotel') {
+        trip.passengers.forEach((passenger) => {
+          if (passenger.guestid === guestId) {
+            tripId = trip.tripid;
+          }
+        });
+      }
+    });
+    return tripId;
+  }
+
+  checkGuestDropoff(guestId: number): number {
+    let tripId = 0;
+    this.trips.forEach((trip) => {
+      if (trip.direction === 'Hotel->Airport') {
+        trip.passengers.forEach((passenger) => {
+          if (passenger.guestid === guestId) {
+            tripId = trip.tripid;
+          }
+        });
+      }
+    });
+    return tripId;
+  }
 
   scrollToElement($element): void {
     console.log($element);
     $element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
   }
   displayService($element): void {
-    this.isVisible = true;
+    this.isVisibleService = true;
+    $element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+  }
+  displayAdmin($element): void {
+    this.isVisibleAdmin = true;
     $element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
   }
   openNav(): void {
@@ -96,6 +153,17 @@ export class AppComponent implements OnInit {
         .subscribe(guest => {
           this.guests.push(guest);
         });
+  }
+
+  //////// ADD Guest to Trip //////////
+  updateGuest(guestid: number, pickupid: number, dropoffid: number): void {
+    if (pickupid !== 0) {
+      this.dataService.updateGuestPickup(guestid, pickupid).subscribe();
+    }
+    if (dropoffid !== 0) {
+      this.dataService.updateGuestDropoff(guestid, dropoffid).subscribe();
+    }
+    // this.getTrips(); // Get the updated Trip-List
   }
 
   //////// Delete //////////

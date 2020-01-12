@@ -172,7 +172,7 @@ class GuestResource {
             http_response_code(400);
             header('Content-Type: application/json');
             header('Reason: Trip ID is not available!');
-          }elseif ($trip->direction !='17'){
+          }elseif ($trip->direction !='Hotel->Airport'){
             // Trip not available
             http_response_code(400);
             header('Content-Type: application/json');

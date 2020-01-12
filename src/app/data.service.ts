@@ -8,6 +8,7 @@ import { Car } from './car';
 import { Driver } from './driver';
 import { Guest } from './guest';
 import { Trip } from './trip';
+import { Title } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,25 @@ export class DataService {
   };
 
   constructor(private http: HttpClient) { }
+
+  //////// -------------------- //////////
+  //////// Rest Call - Add Trips to Guests //////////
+
+  updateGuestPickup(guestid: number, tripid: number): Observable<any> {
+    const url = `${this.apiUrl + '/guests'}/${guestid + '/pickup'}`;
+
+    return this.http.post<Guest>(url, {tripid}, this.httpOptions).pipe(
+      catchError(this.handleError<Guest>('updateGuestPickup'))
+    );
+  }
+
+  updateGuestDropoff(guestid: number, tripid: number): Observable<any> {
+    const url = `${this.apiUrl + '/guests'}/${guestid + '/dropoff'}`;
+
+    return this.http.post<Guest>(url, {tripid}, this.httpOptions).pipe(
+      catchError(this.handleError<Guest>('updateGuestDropoff'))
+    );
+  }
 
   //////// -------------------- //////////
   //////// Rest Calls - Trips //////////

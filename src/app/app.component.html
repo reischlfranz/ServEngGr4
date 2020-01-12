@@ -20,7 +20,7 @@
       <a class="js-scroll-trigger" href="#contact" (click)="scrollToElement(contact)">Contact</a>
     </li>
     <li class="sidebar-nav-item">
-      <a class="js-scroll-trigger" href="#admin" (click)="scrollToElement(admin)">Admin</a>
+      <a class="js-scroll-trigger" href="#admin" (click)="displayAdmin(admin)">Admin</a>
     </li>
   </ul>
 </nav>
@@ -115,83 +115,6 @@
   </div>
 </section>
 
-<!-- Hotel Guest Service -->
-<section class="container mt-5" #service>
-  <div class="d-flex">
-    <h2 style="color: #1D809F;">Hotel Guest Service-Transport</h2>
-  </div>
-
-  <table class="table table-bordered">
-    <tr>
-      <td>ID</td>
-      <td>Richtung</td>
-      <td>Fahrer</td>
-      <td>Auto</td>
-      <td>Max Passagiere</td>
-      <td>Abfahrt</td>
-      <td>Ankunft</td>
-      <td>Fahrzeit</td>
-    </tr>
-    <tr *ngFor="let trip of trips">
-      <td>{{trip.tripid}}</td>
-      <td>{{trip.direction}}</td>
-      <td>{{trip.driver.drivername}}</td>
-      <td>{{trip.car.carname}}</td>
-      <td>{{trip.car.carpassengers}}</td>
-      <td>{{trip.timestart}}</td>
-      <td>{{trip.timearrival}}</td>
-      <td>{{trip.triptime}}</td>
-    </tr>
-  </table>
-</section>
-
-<!--Booking Service -->
-<section class="container mt-5">
-<form class="content-section text-center">
-  <h2 style="color: #1D809F;">Transport Buchung </h2>
-    <div class="form-group">
-      <label class="h3" form="person">Formular</label>
-      <input type="text" id="bookingName" class="form-control mb-4" placeholder="Name">
-      <p class="h4 mb-4">Wähle dein Shuttle:</p>
-
-      <select class="browser-default custom-select mb-4" name="bookTripID" >
-        <option *ngFor="let trip of trips" value="{{trip.tripid}}"> {{trip.tripid}}</option>
-      </select>
-
-      <input type="date" name="tripDate">
-      <br> <br>
-
-      <button class="bg-success text-white">
-        BUCHEN
-      </button>
-      <!--add Booking
-      <button class="bg-success text-white" (click)="addingBooking=false; addDriver();  ;">
-        BUCHEN
-      </button>
-          <button class="btn btn-info btn-block" type="submit">Send</button>
-
--->
-    </div>
-  </form>
-</section>
-
-
-<table class="table table-bordered">
-  <tr *ngIf="addingDriver">
-    <td></td>
-    <td><input type="text" [(ngModel)]="newDriverName"></td>
-    <td>
-      <button class="bg-success text-white" (click)="addingDriver=false; addDriver(newDriverName); newDriverName='';">
-        Speichern
-      </button>
-    </td>
-  </tr>
-</table>
-<br>
-<hr>
-<br>
-
-
 <!-- Map -->
 <section class="map" #contact>
   <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
@@ -199,121 +122,202 @@
   <br/>
 </section>
 
+<!-- Hotel Guest Service -->
+<div #service>
+  <section *ngIf="isVisibleService" class="content-section bg-light text-black text-center" >
+    <div class="container">
+      <h1 style="color: #1d2124">Hotel Transport-Service</h1>
+      <section class="container mt-5">
+        <div class="d-flex">
+          <h2 style="color: #1D809F;">Verfügbare Trips</h2>
+        </div>
 
-<section class="container mt-5" #admin>
-  <div class="d-flex">
-    <h2 style="color: #1D809F;">Fahrer</h2>
-    <button style="background-color: #1D809F; color: white;"
-            class="ml-auto my-2"
-            (click)="addingDriver = true"
-            *ngIf="!addingDriver"
-    >
-      Fahrer hinzufügen
-    </button>
-  </div>
-  <table class="table table-bordered">
-    <tr>
-      <td>ID</td>
-      <td>Name</td>
-      <td></td>
-    </tr>
-    <tr *ngFor="let driver of drivers">
-      <td>{{driver.driverid}}</td>
-      <td>{{driver.drivername}}</td>
-      <td>
-        <button class="bg-danger text-white" (click)=deleteDriver(driver)>Löschen</button>
-      </td>
-    </tr>
-    <tr *ngIf="addingDriver">
-      <td></td>
-      <td><input type="text" [(ngModel)]="newDriverName"></td>
-      <td>
-        <button class="bg-success text-white" (click)="addingDriver=false; addDriver(newDriverName); newDriverName='';">
-          Speichern
-        </button>
-      </td>
-    </tr>
-  </table>
-  <br>
-  <hr>
-  <br>
+        <table class="table table-bordered" ng-repeat>
+          <tr>
+            <td>ID</td>
+            <td>Richtung</td>
+            <td>Fahrer</td>
+            <td>Auto</td>
+            <td>Platzanzahl</td>
+            <td>Bereits gebuchte Plätze</td>
+            <td>Datum</td>
+            <td>Abfahrt</td>
+            <td>Ankunft</td>
+            <td>Fahrzeit</td>
+          </tr>
+          <tr *ngFor="let trip of trips">
+            <td>{{trip.tripid}}</td>
+            <td>{{trip.direction}}</td>
+            <td>{{trip.driver.drivername}}</td>
+            <td>{{trip.car.carname}}</td>
+            <td>{{trip.car.carpassengers}}</td>
+            <td>{{trip.passengers.length}}</td>
+            <td>{{trip.tripdate}}</td>
+            <td>{{trip.timestart}}</td>
+            <td>{{trip.timearrival}}</td>
+            <td>{{trip.triptime}}</td>
+          </tr>
+        </table>
+      <form class="content-section text-center">
+        <h2 style="color: #1D809F;">Transport Buchung </h2>
+          <div class="form-group">
+            <p class="h4">Gast:</p>
+            <select class="browser-default custom-select mb-4" [(ngModel)]="guestId" (ngModelChange)="onGuestSelected($event)" name="guestId" >
+              <option value="0"> *Please select a guest </option>
+              <option *ngFor="let guest of guests" [value]="guest.guestid"> {{guest.guestid}} - {{guest.guestname}}</option>
+            </select>
 
+            <p class="h4">PickUp-Shuttle:</p>
+            <select class="browser-default custom-select mb-4" [(ngModel)]="pickupId" (ngModelChange)="onPickupSelected($event)" name="pickupId" >
+              <option value="0"> None </option>
+              <option *ngFor="let trip of trips | myfilter:tripFilterPickups" [value]="trip.tripid"> {{trip.tripid}} - Abfahrt am {{trip.tripdate}} um {{trip.timestart}}</option>
+            </select>
 
-  <div class="d-flex">
-    <h2 style="color: #1D809F;">Autos</h2>
-    <button style="background-color: #1D809F; color: white;"
-            class="ml-auto my-2"
-            (click)="addingCar = true"
-            *ngIf="!addingCar"
-    >
-      Auto hinzufügen
-    </button>
-  </div>
-  <table class="table table-bordered">
-    <tr>
-      <td>ID</td>
-      <td>Bezeichnung</td>
-      <td>Max. Passagiere</td>
-      <td></td>
-    </tr>
-    <tr *ngFor="let car of cars">
-      <td>{{car.carid}}</td>
-      <td>{{car.carname}}</td>
-      <td>Max. {{car.carpassengers}}</td>
-      <td>
-        <button class="bg-danger text-white" (click)=deleteCar(car)>Löschen</button>
-      </td>
-    </tr>
-    <tr *ngIf="addingCar">
-      <td></td>
-      <td><input type="text" [(ngModel)]="newCarName"></td>
-      <td><input type="number" [(ngModel)]="newCarPassengers"></td>
-      <td>
-        <button class="bg-success text-white"
-                (click)="addingCar=false; addCar(newCarName, newCarPassengers); newCarName=''; newCarPassengers=0">
-          Speichern
-        </button>
-      </td>
-    </tr>
-  </table>
-  <br>
-  <hr>
-  <br>
-</section>
+            <p class="h4">DropOff-Shuttle:</p>
+            <select class="browser-default custom-select mb-4" [(ngModel)]="dropoffId" (ngModelChange)="onDropoffSelected($event)" name="dropoffId" >
+              <option value="0"> None </option>
+              <option *ngFor="let trip of trips | myfilter:tripFilterDropoffs" [value]="trip.tripid"> {{trip.tripid}} - Abfahrt am {{trip.tripdate}} um {{trip.timestart}}</option>
+            </select>
 
-<!--Booking Table -->
-<section class="container mt-5">
-  <div class="d-flex">
-    <h2 style="color: #1D809F;">Buchungen</h2>
-  </div>
+            <button class="bg-success text-white" (click)="addingBooking=false; updateGuest(guestId, pickupId, dropoffId); guestId=0; pickupId=0; dropoffId=0;">BUCHEN</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  </section>
+</div>
 
-  <table class="table table-bordered">
-    <tr>
-      <td>Datum</td>
-      <td>Name</td>
-      <td>Richtung</td>
-      <td>Fahrer</td>
-      <td>Auto</td>
-      <td>Abfahrt</td>
-      <td>Ankunft</td>
-      <td>Fahrzeit</td>
-    </tr>
-    <!-- ANPASSEN !!
-    <tr *ngFor="let booking of bookings">
-      <td>{{}}</td>
-      <td>{{}}</td>
-      <td>{{}}</td>
-      <td>{{}}</td>
-      <td>{{}}</td>
-      <td>{{}}</td>
-      <td>{{}}</td>
-      <td>
-        <button class="bg-danger text-white" (click)=deleteBooking(booking)>Löschen</button>
-      </td>
-    </tr> -->
-  </table>
-</section>
+<div #admin>
+  <section *ngIf="isVisibleAdmin" class="content-section bg-light text-white text-center" >
+    <div class="container">
+      <h1 style="color: #1d2124">Hotel Transport-Service</h1>
+      <section class="container mt-1">
+        <div class="d-flex">
+          <h2 style="color: #1D809F;">Gäste</h2>
+          <button style="background-color: #1D809F; color: white;"
+                  class="ml-auto my-2"
+                  (click)="addingGuest = true"
+                  *ngIf="!addingGuest"
+          >
+            Gast hinzufügen
+          </button>
+        </div>
+        <table class="table table-bordered">
+          <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Gebuchter PickUp (Airport -> Hotel)</td>
+            <td>Gebuchter DropOff (Hotel -> Airport)</td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let guest of guests">
+            <td>{{guest.guestid}}</td>
+            <td>{{guest.guestname}}</td>
+            <td *ngIf="checkGuestPickup(guest.guestid) !== 0">Trip: {{checkGuestPickup(guest.guestid)}}</td>
+            <td *ngIf="checkGuestPickup(guest.guestid) === 0">-</td>
+            <td *ngIf="checkGuestDropoff(guest.guestid) !== 0">Trip: {{checkGuestDropoff(guest.guestid)}}</td>
+            <td *ngIf="checkGuestDropoff(guest.guestid) === 0">-</td>
+            <td>
+              <button class="bg-danger text-white" (click)="deleteGuest(guest)">Löschen</button>
+            </td>
+          </tr>
+          <tr *ngIf="addingGuest">
+            <td></td>
+            <td><input type="text" [(ngModel)]="newGuestName"></td>
+            <td></td>
+            <td></td>
+            <td>
+              <button class="bg-success text-white" (click)="addingGuest=false; addGuest(newGuestName); newGuestName=''; pickupId=0; dropoffId=0;">
+                Speichern
+              </button>
+            </td>
+          </tr>
+        </table>
+        <br>
+        <hr>
+        <br>
 
+        <div class="d-flex">
+          <h2 style="color: #1D809F;">Fahrer</h2>
+          <button style="background-color: #1D809F; color: white;"
+                  class="ml-auto my-2"
+                  (click)="addingDriver = true"
+                  *ngIf="!addingDriver"
+          >
+            Fahrer hinzufügen
+          </button>
+        </div>
+        <table class="table table-bordered">
+          <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let driver of drivers">
+            <td>{{driver.driverid}}</td>
+            <td>{{driver.drivername}}</td>
+            <td>
+              <button class="bg-danger text-white" (click)="deleteDriver(driver)">Löschen</button>
+            </td>
+          </tr>
+          <tr *ngIf="addingDriver">
+            <td></td>
+            <td><input type="text" [(ngModel)]="newDriverName"></td>
+            <td>
+              <button class="bg-success text-white" (click)="addingDriver=false; addDriver(newDriverName); newDriverName='';">
+                Speichern
+              </button>
+            </td>
+          </tr>
+        </table>
+        <br>
+        <hr>
+        <br>
+
+        <div class="d-flex">
+          <h2 style="color: #1D809F;">Autos</h2>
+          <button style="background-color: #1D809F; color: white;"
+                  class="ml-auto my-2"
+                  (click)="addingCar = true"
+                  *ngIf="!addingCar"
+          >
+            Auto hinzufügen
+          </button>
+        </div>
+        <table class="table table-bordered">
+          <tr>
+            <td>ID</td>
+            <td>Bezeichnung</td>
+            <td>Max. Passagiere</td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let car of cars">
+            <td>{{car.carid}}</td>
+            <td>{{car.carname}}</td>
+            <td>Max. {{car.carpassengers}}</td>
+            <td>
+              <button class="bg-danger text-white" (click)="deleteCar(car)">Löschen</button>
+            </td>
+          </tr>
+          <tr *ngIf="addingCar">
+            <td></td>
+            <td><input type="text" [(ngModel)]="newCarName"></td>
+            <td><input type="number" [(ngModel)]="newCarPassengers"></td>
+            <td>
+              <button class="bg-success text-white"
+                      (click)="addingCar=false; addCar(newCarName, newCarPassengers); newCarName=''; newCarPassengers=0">
+                Speichern
+              </button>
+            </td>
+          </tr>
+        </table>
+        <br>
+        <hr>
+        <br>
+      </section>
+    </div>
+  </section>
+</div>
 
 <!-- Footer -->
 <footer class="footer text-center">
