@@ -4,6 +4,41 @@ require_once 'model/Db.php';
 class Trip {
 
 
+  static function addTrip($direction, $date, $timestart, $timearrival, $driverid, $carid) {
+    $db = Db::getDbObject();
+
+    logheader("dir-".$direction);
+    logheader("dat-".$date);
+    logheader("tst-".$timestart);
+    logheader("tar-".$timearrival);
+    logheader("dID-".$driverid);
+    logheader("cID-".$carid);
+    $statement = $db->prepare("INSERT
+                INTO trip (direction, driverid, carid, tripdate, timestart, timearrival)
+                VALUES (:direction, :driverid, :carid, date(:tripdate), :timestart, :timearrival)");
+    $statement->bindParam(':direction', $direction);
+    $statement->bindParam(':tripdate', $date);
+    $statement->bindParam(':timestart', $timestart);
+    $statement->bindParam(':timearrival', $timearrival);
+    $statement->bindParam(':driverid', $driverid);
+    $statement->bindParam(':carid', $carid);
+    $result = $statement->execute();
+    $db = null;
+    if(!$result){
+      // Insert failed
+      return false;
+    }
+    $db = Db::getDbObject();
+    // Get the object with the latest ID back
+    $statement = $db->prepare("SELECT MAX(tripid) AS tripid FROM trip");
+    $statement->execute();
+
+    $result = $statement->fetch(PDO::FETCH_OBJ);
+    $db = null;
+
+    return self::getTrip($result->tripid);
+  }
+
   static function getTrip($tripId) {
     $db = Db::getDbObject();
     $statement = $db->prepare("SELECT *,
@@ -20,7 +55,7 @@ class Trip {
       unset($result->driverid);
       $result->car = Car::getCar($result->carid);
       unset($result->carid);
-      $result->passengers = Guest::listTripGuests(1);
+      $result->passengers = Guest::listTripGuests($result->tripid);
 
     }
     return $result;

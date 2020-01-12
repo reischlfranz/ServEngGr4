@@ -16,9 +16,9 @@ class TripResource {
           self::getAllTrips();
         }
         break;
-//      case 'POST':
-//        self::addTrip($body);
-//        break;
+      case 'POST':
+        self::addTrip($body);
+        break;
 //      case 'DELETE':
 //        self::deleteTrip($pathArray[1]);
 //        break;
@@ -70,6 +70,48 @@ class TripResource {
     echo(json_encode(array_values($response2)));
   }
 
+  //POST
+  private static function addTrip($body){
+    $response = "";
+    if(!isset($body->direction)
+          || !isset($body->date)
+          || !isset($body->timestart)
+          || !isset($body->timearrival)
+          || !isset($body->carid)
+          || !isset($body->driverid)
+          ){
+      // missing parameters
+      http_response_code(400);
+      header('Content-Type: application/json');
+      header('Reason: Needs JSON object with parameters "direction", "date", "timestart", "timearrival", "carid" and "driverid".');
+    }elseif(!Car::getCar($body->carid)){
+      // No valid carId
+      http_response_code(400);
+      header('Content-Type: application/json');
+      header('Reason: Invalid carid');
+    }elseif(!Driver::getDriver($body->driverid)) {
+      // No valid carId
+      http_response_code(400);
+      header('Content-Type: application/json');
+      header('Reason: Invalid driverid');
+    }else{
+      // correct parameters
+      $response = Trip::addTrip($body->direction, $body->date, $body->timestart, $body->timearrival, $body->driverid, $body->carid);
+
+      if(!$response){
+        // Insert failed
+        http_response_code(500);
+        header('Content-Type: application/json');
+        header('Reason: Failed to insert into DB');
+      }else{
+        // Insert OK
+        http_response_code(201);
+        header('Content-Type: application/json');
+        echo(json_encode($response));
+      }
+    }
+  }
+
   private static function FilterPickup($obj){
     if($obj->direction == "Airport->Hotel") return true;
     return false;
@@ -78,4 +120,6 @@ class TripResource {
     if($obj->direction == "Hotel->Airport") return true;
     return false;
   }
+
+
 }

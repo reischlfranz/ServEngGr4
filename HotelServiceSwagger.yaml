@@ -3,15 +3,14 @@ info:
   title: ServEngGr4 API
   description: API description in Markdown.
   version: 1.0.0
-host: localhost:8001/api
-schemes:
-  - http
-
-# Added by API Auto Mocking Plugin
-#host: virtserver.swaggerhub.com
-#basePath: /reischl_franz/ServEngGr4/1.0.0
+#host: localhost:8001/api
 #schemes:
 #  - https
+
+host: playground.f3.at
+basePath: /HotelService/api/index.php
+schemes:
+  - http
 
 
 paths:
@@ -311,6 +310,55 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Trip'
+    post:
+      summary: Insert a new Trip
+      operationId: addTrip
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: tripInsertObject
+          required: true
+          schema:
+            type: object
+            properties:
+              direction:
+                type: string
+                enum:
+                  - Hotel->Airport
+                  - Airport->Hotel
+              date:
+                type: number
+                description: Date of transport
+                format: 'date'
+                example: '2020-03-12'
+              timestart:
+                type: number
+                format: 'time'
+                example: '13:30'
+              timearrival:
+                type: number
+                format: 'time'
+                example: '13:51'
+              carid:
+                type: number
+                format: int32
+                example: 3
+              driverid:
+                type: number
+                format: int32
+                example: 6
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/Trip'
+        400:
+          description: Bad parameters, invalid input
+        500:
+          description: Server error while inserting
   /trips/{tripId}:
     get:
       summary: Returns a single trip by ID
