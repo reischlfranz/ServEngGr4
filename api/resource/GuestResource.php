@@ -17,10 +17,10 @@ class GuestResource {
         }
         break;
       case 'POST':
-        if($pathArray[2] == 'pickup'){
+        if(isset($pathArray[2]) && $pathArray[2] == 'pickup'){
           // add Pickup for guest by ID
           self::addGuestPickup($pathArray[1], $body);
-        }elseif($pathArray[2] == 'dropoff'){
+        }elseif(isset($pathArray[2]) && $pathArray[2] == 'dropoff'){
           // add Dropoff for guest by ID
           self::addGuestDropoff($pathArray[1], $body);
         }else{
@@ -86,7 +86,6 @@ class GuestResource {
         echo(json_encode($response));
       }
     }
-
   }
 
   private static function addGuestPickup($guestId, $body){
@@ -119,7 +118,7 @@ class GuestResource {
             http_response_code(400);
             header('Content-Type: application/json');
             header('Reason: Trip ID is not available!');
-          }elseif ($trip->direction =='Airport->Hotel'){
+          }elseif ($trip->direction !='Airport->Hotel'){
             // Trip not available
             http_response_code(400);
             header('Content-Type: application/json');
@@ -173,7 +172,7 @@ class GuestResource {
             http_response_code(400);
             header('Content-Type: application/json');
             header('Reason: Trip ID is not available!');
-          }elseif ($trip->direction =='Hotel->Airport'){
+          }elseif ($trip->direction !='17'){
             // Trip not available
             http_response_code(400);
             header('Content-Type: application/json');
