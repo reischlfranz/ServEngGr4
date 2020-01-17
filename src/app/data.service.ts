@@ -16,7 +16,7 @@ import { Title } from '@angular/platform-browser';
 
 export class DataService {
 
-  apiUrl = 'https://hotelserviceservenggr4.azurewebsites.net/api/index.php';
+  apiUrl = 'http://localhost:8001/api';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

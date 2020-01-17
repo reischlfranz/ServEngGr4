@@ -7,11 +7,13 @@ import {RouterModule} from '@angular/router';
 import { MyFilterPipe } from './myfilterpipe';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MyFilterPipe
+    MyFilterPipe,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
