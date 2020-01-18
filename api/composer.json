@@ -1,0 +1,16 @@
+{
+  "name": "vendor_name/package_name",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Franz Reischl",
+      "email": "franzreischl@outlook.com"
+    }
+  ],
+  "require": {
+    "bramus/router": "dev-master",
+    "auth0/auth0-php": "~5.0"
+  }
+}
