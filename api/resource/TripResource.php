@@ -46,11 +46,9 @@ class TripResource {
     }
     if(!$response){
       http_response_code(404);
-      header('Content-Type: application/json');
       header('Reason: tripId not found');
     }else {
       http_response_code(200);
-      header('Content-Type: application/json');
       echo(json_encode($response));
     }
   }
@@ -66,7 +64,6 @@ class TripResource {
       $response2 = $response;
     }
     http_response_code(200);
-    header('Content-Type: application/json');
     echo(json_encode(array_values($response2)));
   }
 
@@ -82,17 +79,14 @@ class TripResource {
           ){
       // missing parameters
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: Needs JSON object with parameters "direction", "date", "timestart", "timearrival", "carid" and "driverid".');
     }elseif(!Car::getCar($body->carid)){
       // No valid carId
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: Invalid carid');
     }elseif(!Driver::getDriver($body->driverid)) {
       // No valid carId
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: Invalid driverid');
     }else{
       // correct parameters
@@ -101,12 +95,10 @@ class TripResource {
       if(!$response){
         // Insert failed
         http_response_code(500);
-        header('Content-Type: application/json');
         header('Reason: Failed to insert into DB');
       }else{
         // Insert OK
         http_response_code(201);
-        header('Content-Type: application/json');
         echo(json_encode($response));
       }
     }

@@ -37,11 +37,9 @@ class CarResource {
     $response = Car::getCar($carId);
     if(!$response){
       http_response_code(404);
-      header('Content-Type: application/json');
       header('Reason: carId not found');
     }else {
       http_response_code(200);
-      header('Content-Type: application/json');
       echo(json_encode($response));
     }
   }
@@ -50,7 +48,6 @@ class CarResource {
   private static function getAllCars(){
     $response = Car::listCars();
     http_response_code(200);
-    header('Content-Type: application/json');
     echo(json_encode($response));
   }
 
@@ -60,7 +57,6 @@ class CarResource {
     if(!isset($body->carname) || !isset($body->carpassengers) || !is_numeric($body->carpassengers)){
       // missing parameters
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: Needs "carname" and "carpassengers" as parameters, "carpassengers" needs to be numeric.');
     }else{
       // correct parameters
@@ -69,7 +65,6 @@ class CarResource {
       if(!$response){
         // Insert failed
         http_response_code(500);
-        header('Content-Type: application/json');
         header('Reason: Failed to insert into DB');
       }else{
         // Insert OK
@@ -85,7 +80,6 @@ class CarResource {
     if(!isset($carId) || !is_numeric($carId)){
       // Parameter missing
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: carId in /cars/{carId} needs to be numeric.');
     }else{
       // Correct parameters
@@ -95,7 +89,6 @@ class CarResource {
       if(!$response) {
         // Did not succeed
         http_response_code(404);
-        header('Content-Type: application/json');
         header('Reason: carId not found');
       }else{
         // Delete Car
@@ -103,12 +96,10 @@ class CarResource {
         if(!$response){
           // Did not succeed
           http_response_code(500);
-          header('Content-Type: application/json');
           header('Reason: Could not delete car from DB');
         }else{
           // Did succeed
           http_response_code(204);
-          header('Content-Type: application/json');
 
         }
       }

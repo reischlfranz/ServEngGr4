@@ -77,12 +77,10 @@ class GuestResource {
       if(!$response){
         // Insert failed
         http_response_code(500);
-        header('Content-Type: application/json');
         header('Reason: Failed to insert into DB');
       }else{
         // Insert OK
         http_response_code(201);
-        header('Content-Type: application/json');
         echo(json_encode($response));
       }
     }
@@ -92,7 +90,6 @@ class GuestResource {
     if(!isset($guestId) || !is_numeric($guestId)){
       // Parameter missing
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: guest in /guest/{guestId}/pickup needs to be numeric.');
     }else{
       // Test if guest is in DB
@@ -100,14 +97,12 @@ class GuestResource {
       if(!$response) {
         // Did not succeed
         http_response_code(404);
-        header('Content-Type: application/json');
         header('Reason: guestId not found');
       }else{
         // Test if body parameter is correct
         if(!isset($body->tripid) || !is_numeric($body->tripid)){
           // wrong Parameter
           http_response_code(400);
-          header('Content-Type: application/json');
           header('Reason: Requires body in form of {"tripid": 12}.');
         }else{
           // check if trip is valid pickup trip
@@ -116,12 +111,10 @@ class GuestResource {
           if(empty($trip)){
             // Trip not available
             http_response_code(400);
-            header('Content-Type: application/json');
             header('Reason: Trip ID is not available!');
           }elseif ($trip->direction !='Airport->Hotel'){
             // Trip not available
             http_response_code(400);
-            header('Content-Type: application/json');
             header('Reason: Trip is not a pickup Trip!');
           }else{
             // Everything OK
@@ -129,12 +122,10 @@ class GuestResource {
             if(!$response){
               // Insert failed
               http_response_code(500);
-              header('Content-Type: application/json');
               header('Reason: Failed to insert into DB');
             }else{
               // Insert OK
               http_response_code(201);
-              header('Content-Type: application/json');
               echo(json_encode($response));
             }
           }
@@ -146,7 +137,6 @@ class GuestResource {
     if(!isset($guestId) || !is_numeric($guestId)){
       // Parameter missing
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: guest in /guest/{guestId}/dropoff needs to be numeric.');
     }else{
       // Test if guest is in DB
@@ -154,14 +144,12 @@ class GuestResource {
       if(!$response) {
         // Did not succeed
         http_response_code(404);
-        header('Content-Type: application/json');
         header('Reason: guestId not found');
       }else{
         // Test if body parameter is correct
         if(!isset($body->tripid) || !is_numeric($body->tripid)){
           // wrong Parameter
           http_response_code(400);
-          header('Content-Type: application/json');
           header('Reason: Requires body in form of {"tripid": 12}.');
         }else{
           // check if trip is valid dropoff trip
@@ -170,12 +158,10 @@ class GuestResource {
           if(empty($trip)){
             // Trip not available
             http_response_code(400);
-            header('Content-Type: application/json');
             header('Reason: Trip ID is not available!');
           }elseif ($trip->direction !='Hotel->Airport'){
             // Trip not available
             http_response_code(400);
-            header('Content-Type: application/json');
             header('Reason: Trip is not a dropoff Trip!');
           }else{
             // Everything OK
@@ -183,12 +169,10 @@ class GuestResource {
             if(!$response){
               // Insert failed
               http_response_code(500);
-              header('Content-Type: application/json');
               header('Reason: Failed to insert into DB');
             }else{
               // Insert OK
               http_response_code(201);
-              header('Content-Type: application/json');
               echo(json_encode($response));
             }
           }
@@ -202,7 +186,6 @@ class GuestResource {
     if(!isset($guestId) || !is_numeric($guestId)){
       // Parameter missing
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: guest in /guest/{guestId} needs to be numeric.');
     }else{
       // Correct parameters
@@ -212,7 +195,6 @@ class GuestResource {
       if(!$response) {
         // Did not succeed
         http_response_code(404);
-        header('Content-Type: application/json');
         header('Reason: guestId not found');
       }else{
         // Delete guest
@@ -220,12 +202,10 @@ class GuestResource {
         if(!$response){
           // Did not succeed
           http_response_code(500);
-          header('Content-Type: application/json');
           header('Reason: Could not delete guest from DB');
         }else{
           // Did succeed
           http_response_code(204);
-          header('Content-Type: application/json');
 
         }
       }

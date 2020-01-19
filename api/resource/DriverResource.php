@@ -37,11 +37,9 @@ class DriverResource {
     $response = Driver::getDriver($driverId);
     if(!$response){
       http_response_code(404);
-      header('Content-Type: application/json');
       header('Reason: driverId not found');
     }else {
       http_response_code(200);
-      header('Content-Type: application/json');
       echo(json_encode($response));
     }
   }
@@ -50,7 +48,6 @@ class DriverResource {
   private static function getAllDriver(){
     $response = Driver::listDrivers();
     http_response_code(200);
-    header('Content-Type: application/json');
     echo(json_encode($response));
   }
 
@@ -60,7 +57,6 @@ class DriverResource {
     if(!isset($body->drivername)){
       // missing parameters
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: Needs "drivername" as parameter.');
     }else{
       // correct parameters
@@ -69,12 +65,10 @@ class DriverResource {
       if(!$response){
         // Insert failed
         http_response_code(500);
-        header('Content-Type: application/json');
         header('Reason: Failed to insert into DB');
       }else{
         // Insert OK
         http_response_code(201);
-        header('Content-Type: application/json');
         echo(json_encode($response));
       }
     }
@@ -85,7 +79,6 @@ class DriverResource {
     if(!isset($driverId) || !is_numeric($driverId)){
       // Parameter missing
       http_response_code(400);
-      header('Content-Type: application/json');
       header('Reason: driverId in /driver/{driverId} needs to be numeric.');
     }else{
       // Correct parameters
@@ -95,7 +88,6 @@ class DriverResource {
       if(!$response) {
         // Did not succeed
         http_response_code(404);
-        header('Content-Type: application/json');
         header('Reason: driverId not found');
       }else{
         // Delete Driver
@@ -103,12 +95,10 @@ class DriverResource {
         if(!$response){
           // Did not succeed
           http_response_code(500);
-          header('Content-Type: application/json');
           header('Reason: Could not delete driver from DB');
         }else{
           // Did succeed
           http_response_code(204);
-          header('Content-Type: application/json');
 
         }
       }

@@ -6,6 +6,7 @@ import { Driver } from './driver';
 import { Guest } from './guest';
 
 import { DataService } from './data.service';
+import {AuthService} from './auth.service';
 
 @Component({
   selector: 'app-root',
@@ -97,7 +98,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, public auth: AuthService) { }
 
   ngOnInit() { /* Get all Trips, Cars, Drivers and Guests at init */
     this.getTrips();
