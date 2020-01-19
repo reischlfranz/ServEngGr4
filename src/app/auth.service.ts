@@ -14,7 +14,8 @@ export class AuthService {
     createAuth0Client({
       domain: 'dev-xpdi60jr.eu.auth0.com',
       client_id: 'BI36Uq79F6rF7HrszpA0Z2U8Cr6LVk8E',
-      redirect_uri: `${window.location.origin}`
+      redirect_uri: `${window.location.origin}`,
+      audience: 'http://hotelserviceservenggr4.azurewebsites.net/api'
     })
   ) as Observable<Auth0Client>).pipe(
     shareReplay(1), // Every subscription receives the same shared value
@@ -53,6 +54,15 @@ export class AuthService {
       tap(user => this.userProfileSubject$.next(user))
     );
   }
+
+  // Get token to be able to call the API with the token included in the header
+  getTokenSilently$(options?): Observable<string> {
+    return this.auth0Client$.pipe(
+      concatMap((client: Auth0Client) => from(client.getTokenSilently(options)))
+    );
+  }
+
+
 
   private localAuthSetup() {
     // This should only be called on app initialization
