@@ -6,13 +6,6 @@ class Trip {
 
   static function addTrip($direction, $date, $timestart, $timearrival, $driverid, $carid) {
     $db = Db::getDbObject();
-
-    logheader("dir-".$direction);
-    logheader("dat-".$date);
-    logheader("tst-".$timestart);
-    logheader("tar-".$timearrival);
-    logheader("dID-".$driverid);
-    logheader("cID-".$carid);
     $statement = $db->prepare("INSERT
                 INTO trip (direction, driverid, carid, tripdate, timestart, timearrival)
                 VALUES (:direction, :driverid, :carid, date(:tripdate), :timestart, :timearrival)");
